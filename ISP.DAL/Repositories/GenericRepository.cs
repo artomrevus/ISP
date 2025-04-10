@@ -8,77 +8,59 @@ namespace ISP.DAL.Repositories;
 public class GenericRepository<T>(IspDbContext context) : IGenericRepository<T>
     where T : class, IEntity
 {
-        protected readonly IspDbContext Context = context;
-        protected readonly DbSet<T> DbSet = context.Set<T>();
+    protected readonly IspDbContext Context = context;
+    protected readonly DbSet<T> DbSet = context.Set<T>();
 
-        public virtual async Task<IEnumerable<T>> GetAsync(
-            int? skip = null,
-            int? take = null,
-            Expression<Func<T, bool>>? filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
-        {
-            IQueryable<T> query = DbSet;
+    public virtual async Task<IEnumerable<T>> GetAsync(
+        int? skip = null,
+        int? take = null,
+        Expression<Func<T, bool>>? filter = null,
+        Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
+    {
+        IQueryable<T> query = DbSet;
 
-            if (filter is not null)
-            {
-                query = query.Where(filter);
-            }
-            
-            if (orderBy is not null)
-            {
-                query = orderBy(query);
-            }
+        if (filter is not null) query = query.Where(filter);
 
-            if (skip.HasValue)
-            {
-                query = query.Skip(skip.Value);
-            }
+        if (orderBy is not null) query = orderBy(query);
 
-            if (take.HasValue)
-            {
-                query = query.Take(take.Value);
-            }
+        if (skip.HasValue) query = query.Skip(skip.Value);
 
-            return await query.AsNoTracking().ToListAsync();
-        }
+        if (take.HasValue) query = query.Take(take.Value);
 
-        public virtual async Task<T?> GetByIdAsync(int id)
-        {
-            return await DbSet.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-        }
+        return await query.AsNoTracking().ToListAsync();
+    }
 
-        public virtual async Task AddAsync(T entity)
-        {
-            await DbSet.AddAsync(entity);
-        }
+    public virtual async Task<T?> GetByIdAsync(int id)
+    {
+        return await DbSet.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+    }
 
-        public virtual Task UpdateAsync(T entity)
-        {
-            DbSet.Attach(entity);
-            Context.Entry(entity).State = EntityState.Modified;
-            return Task.CompletedTask;
-        }
+    public virtual async Task AddAsync(T entity)
+    {
+        await DbSet.AddAsync(entity);
+    }
 
-        public virtual Task DeleteAsync(T entity)
-        {
-            if (Context.Entry(entity).State == EntityState.Detached)
-            {
-                DbSet.Attach(entity);
-            }
-            
-            DbSet.Remove(entity);
-            return Task.CompletedTask;
-        }
-        
-        public virtual async Task<int> CountAsync(Expression<Func<T, bool>>? filter = null)
-        {
-            IQueryable<T> query = DbSet;
+    public virtual Task UpdateAsync(T entity)
+    {
+        DbSet.Attach(entity);
+        Context.Entry(entity).State = EntityState.Modified;
+        return Task.CompletedTask;
+    }
 
-            if (filter is not null)
-            {
-                query = query.Where(filter);
-            }
+    public virtual Task DeleteAsync(T entity)
+    {
+        if (Context.Entry(entity).State == EntityState.Detached) DbSet.Attach(entity);
 
-            return await query.AsNoTracking().CountAsync();
-        }
+        DbSet.Remove(entity);
+        return Task.CompletedTask;
+    }
+
+    public virtual async Task<int> CountAsync(Expression<Func<T, bool>>? filter = null)
+    {
+        IQueryable<T> query = DbSet;
+
+        if (filter is not null) query = query.Where(filter);
+
+        return await query.AsNoTracking().CountAsync();
+    }
 }

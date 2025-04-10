@@ -16,13 +16,13 @@ public class ClientService(
 {
     private readonly IGenericRepository<Client> _clientRepository = unitOfWork.Repository<Client>();
     
-    public async Task<IEnumerable<GetClientDto>> GetAllClientsAsync(
+    public async Task<IEnumerable<GetClientDto>> GetAllAsync(
         PaginationParameters pagination, 
         ClientFilterParameters filter, 
         SortingParameters sorting)
     {
         var skipRecords = (pagination.PageNumber - 1) * pagination.PageSize;
-        var takeRecords =pagination.PageSize;
+        var takeRecords = pagination.PageSize;
         var filterExpression = BuildFilter(filter);
         var orderByFunc = BuildOrderBy(sorting);
 
@@ -35,7 +35,7 @@ public class ClientService(
         return clients.ToGetClientDtos();
     }
 
-    public async Task<GetClientDto> GetClientByIdAsync(int id)
+    public async Task<GetClientDto> GetByIdAsync(int id)
     {
         var client = await _clientRepository.GetByIdAsync(id);
 
@@ -47,9 +47,9 @@ public class ClientService(
         return client.ToGetClientDto();
     }
 
-    public async Task<GetClientDto> AddClientAsync(AddClientDto addClientDto)
+    public async Task<GetClientDto> AddAsync(AddClientDto dto)
     {
-        var client = addClientDto.ToClient();
+        var client = dto.ToClient();
         client.CreateDateTime = DateTime.Now;
         
         await _clientRepository.AddAsync(client);
@@ -58,16 +58,16 @@ public class ClientService(
         return client.ToGetClientDto();
     }
 
-    public async Task<GetClientDto> UpdateClientAsync(UpdateClientDto updateClientDto)
+    public async Task<GetClientDto> UpdateAsync(UpdateClientDto dto)
     {
-        var clientToUpdate = await _clientRepository.GetByIdAsync(updateClientDto.Id);
+        var clientToUpdate = await _clientRepository.GetByIdAsync(dto.Id);
             
         if (clientToUpdate is null)
         {
-            throw new NotFoundException($"Client with id '{updateClientDto.Id}' not found.");
+            throw new NotFoundException($"Client with id '{dto.Id}' not found.");
         }
         
-        var updatedClient = updateClientDto.ToClient();
+        var updatedClient = dto.ToClient();
         updatedClient.CreateDateTime = clientToUpdate.CreateDateTime;
         updatedClient.UpdateDateTime = DateTime.Now;
             
@@ -77,7 +77,7 @@ public class ClientService(
         return updatedClient.ToGetClientDto();
     }
 
-    public async Task DeleteClientAsync(int id)
+    public async Task DeleteAsync(int id)
     {
         var clientToDelete = await _clientRepository.GetByIdAsync(id);
         
@@ -90,50 +90,39 @@ public class ClientService(
         await unitOfWork.SaveChangesAsync();
     }
 
-    public async Task<int> GetTotalCountAsync(string? searchTerm = null)
+    public async Task<int> GetCountAsync(ClientFilterParameters filter)
     {
-        if (string.IsNullOrEmpty(searchTerm))
-        {
-            return await _clientRepository.CountAsync();
-        }
-
-        Expression<Func<Client, bool>> filter = 
-            c =>
-            c.FirstName.Contains(searchTerm) ||
-            c.LastName.Contains(searchTerm) ||
-            c.Email.Contains(searchTerm) ||
-            c.PhoneNumber.Contains(searchTerm);
-            
-        return await _clientRepository.CountAsync(filter);
+        var filterExpression = BuildFilter(filter);
+        return await _clientRepository.CountAsync(filterExpression);
     }
 
     private static Expression<Func<Client, bool>> BuildFilter(ClientFilterParameters filterParameters)
     {
         Expression<Func<Client, bool>> filter = c => true;
         
-        if (filterParameters.ClientStatusIds.Count > 0)
+        if (filterParameters.ClientStatusId.HasValue)
         {
-            filter = filter.And(c => filterParameters.ClientStatusIds.Contains(c.ClientStatusId));
+            filter = filter.And(c => c.ClientStatusId == filterParameters.ClientStatusId.Value);
         }
         
         if (!string.IsNullOrEmpty(filterParameters.FirstNameContains))
         {
-            filter = filter.And(c => c.FirstName.Contains(filterParameters.FirstNameContains));
+            filter = filter.And(c => c.FirstName.ToLower().Contains(filterParameters.FirstNameContains.ToLower()));
         }
         
         if (!string.IsNullOrEmpty(filterParameters.LastNameContains))
         {
-            filter = filter.And(c => c.LastName.Contains(filterParameters.LastNameContains));
+            filter = filter.And(c => c.LastName.ToLower().Contains(filterParameters.LastNameContains.ToLower()));
         }
         
         if (!string.IsNullOrEmpty(filterParameters.PhoneNumberContains))
         {
-            filter = filter.And(c => c.PhoneNumber.Contains(filterParameters.PhoneNumberContains));
+            filter = filter.And(c => c.PhoneNumber.ToLower().Contains(filterParameters.PhoneNumberContains.ToLower()));
         }
         
         if (!string.IsNullOrEmpty(filterParameters.EmailContains))
         {
-            filter = filter.And(c => c.Email.Contains(filterParameters.EmailContains));
+            filter = filter.And(c => c.Email.ToLower().Contains(filterParameters.EmailContains.ToLower()));
         }
         
         if (filterParameters.RegistrationDateFrom.HasValue)
@@ -148,12 +137,12 @@ public class ClientService(
         
         if (!string.IsNullOrEmpty(filterParameters.StreetContains))
         {
-            filter = filter.And(c => c.Location.House.Street.StreetName.Contains(filterParameters.StreetContains));
+            filter = filter.And(c => c.Location.House.Street.StreetName.ToLower().Contains(filterParameters.StreetContains.ToLower()));
         }
         
         if (!string.IsNullOrEmpty(filterParameters.CityContains))
         {
-            filter = filter.And(c => c.Location.House.Street.City.CityName!.Contains(filterParameters.CityContains));
+            filter = filter.And(c => c.Location.House.Street.City.CityName!.ToLower().Contains(filterParameters.CityContains.ToLower()));
         }
 
         return filter;

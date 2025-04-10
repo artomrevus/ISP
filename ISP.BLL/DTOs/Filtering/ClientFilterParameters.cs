@@ -5,7 +5,7 @@ namespace ISP.BLL.DTOs.Filtering;
 
 public class ClientFilterParameters
 {
-    public List<int> ClientStatusIds { get; set; } = [];
+    public int? ClientStatusId { get; set; }
     
     public string? StreetContains { get; set; }
     

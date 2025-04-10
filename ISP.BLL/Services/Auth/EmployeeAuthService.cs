@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using ISP.BLL.Constants;
 using ISP.BLL.DTOs.Auth;
 using ISP.BLL.Exceptions;
 using ISP.BLL.Interfaces.Auth;
@@ -11,17 +12,9 @@ namespace ISP.BLL.Services.Auth;
 public class EmployeeAuthService(
     UserManager<IdentityUser> userManager,
     ITokenService tokenService,
-    IUnitOfWork unitOfWork)
+    IUserEmployeeResolver userEmployeeResolver)
     : IEmployeeAuthService
 {
-    private static readonly List<string> EmployeeRoles =
-    [
-        "OfficeManager",
-        "WarehouseWorker",
-        "NetworkTechnician",
-        "HumanResource",
-    ];
-
     public async Task<LoginEmployeeResponseDto> LoginAsync(LoginRequestDto entity)
     {
         var identityUser = await userManager.FindByNameAsync(entity.UserName);
@@ -37,15 +30,16 @@ public class EmployeeAuthService(
         }
 
         var userRole = await EnsureValidRoleAsync(identityUser);
-        var employee = await GetEmployeeWithEmail(entity.UserName);
-        var jwtToken = tokenService.CreateJwtToken(identityUser, userRole, employee.Id);
+        var employeeId = await userEmployeeResolver.GetEmployeeIdByUserIdAsync(identityUser.Id);
+        var jwtToken = tokenService.CreateJwtToken(identityUser, userRole, employeeId);
             
         return new LoginEmployeeResponseDto
         {
+            UserId = identityUser.Id,
+            EmployeeId = employeeId,
             UserName = entity.UserName,
             Role = userRole,
             Token = jwtToken,
-            EmployeeId = employee.Id,
         };
     }
 
@@ -64,23 +58,11 @@ public class EmployeeAuthService(
         }
 
         var userRole = userRoles.Single();
-        if (!EmployeeRoles.Contains(userRole))
+        if (!IspRoles.EmployeeRoles().Contains(userRole))
         {
             throw new AuthException($"Invalid role selected. User with this username and password has the role: {userRoles.Single()}.");
         }
         
         return userRole;
-    }
-    
-    private async Task<Employee> GetEmployeeWithEmail(string email)
-    {
-        var employeesRepository = unitOfWork.Repository<Employee>();
-        
-        Expression<Func<Employee, bool>> filter = e => 
-            e.Contracts.OrderBy(c => c.StartDate).Last().Interview.InterviewRequest.Candidate.Email == email;
-        
-        var employeeList = await employeesRepository.GetAsync(null, null, filter);
-        
-        return employeeList.Single();
     }
 }

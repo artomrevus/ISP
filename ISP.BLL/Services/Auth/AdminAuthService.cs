@@ -1,3 +1,4 @@
+using ISP.BLL.Constants;
 using ISP.BLL.DTOs.Auth;
 using ISP.BLL.Exceptions;
 using ISP.BLL.Interfaces.Auth;
@@ -10,8 +11,6 @@ public class AdminAuthService(
     ITokenService tokenService) 
     : IAdminAuthService
 {
-    private const string RoleName = "Admin";
-    
     public async Task<LoginAdminResponseDto> LoginAsync(LoginRequestDto entity)
     {
         var identityUser = await userManager.FindByNameAsync(entity.UserName);
@@ -27,12 +26,13 @@ public class AdminAuthService(
         }
 
         await EnsureValidRoleAsync(identityUser);
-        var jwtToken = tokenService.CreateJwtToken(identityUser, RoleName);
+        var jwtToken = tokenService.CreateJwtToken(identityUser, IspRoles.Admin);
             
         return new LoginAdminResponseDto
         {
+            UserId = identityUser.Id,
             UserName = entity.UserName,
-            Role = RoleName,
+            Role = IspRoles.Admin,
             Token = jwtToken,
         };
     }
@@ -51,7 +51,7 @@ public class AdminAuthService(
             throw new AuthException($"User with '{identityUser.UserName}' has more than one role assigned.");
         }
         
-        if (userRoles.Single() != RoleName)
+        if (userRoles.Single() != IspRoles.Admin)
         {
             throw new AuthException($"Invalid role selected. User with this username and password has the role: {userRoles.Single()}.");
         }

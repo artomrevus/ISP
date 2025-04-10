@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using ISP.BLL.Constants;
 using ISP.BLL.Interfaces.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -15,27 +16,27 @@ public class TokenService(IConfiguration configuration) : ITokenService
         var claims = new List<Claim>
         {
             new (ClaimTypes.Name, user.UserName ?? throw new InvalidOperationException("Identity user username is null")),
-            new ("id", user.Id),
-            new (ClaimTypes.Role, role ?? throw new InvalidOperationException("Identity user role is null"))
+            new (ClaimTypes.Role, role),
+            new (IspAuthClaims.UserId, user.Id),
         };
 
-        return CreateJwtToken(user, claims);
+        return CreateJwtToken(claims);
     }
     
-    public string CreateJwtToken(IdentityUser user, string role, int employeeId)
+    public string CreateJwtToken(IdentityUser user, string role, string employeeId)
     {
         var claims = new List<Claim>
         {
             new (ClaimTypes.Name, user.UserName ?? throw new InvalidOperationException("Identity user username is null")),
-            new ("id", user.Id),
-            new ("employeeId", employeeId.ToString()),
-            new (ClaimTypes.Role, role ?? throw new InvalidOperationException("Identity user role is null"))
+            new (IspAuthClaims.EmployeeId, employeeId),
+            new (ClaimTypes.Role, role),
+            new (IspAuthClaims.UserId, user.Id),
         };
         
-        return CreateJwtToken(user, claims);
+        return CreateJwtToken(claims);
     }
 
-    private string CreateJwtToken(IdentityUser user, List<Claim> claims)
+    private string CreateJwtToken(List<Claim> claims)
     {
         // Credentials:
         var configurationJwtKey = configuration["Jwt:Key"];

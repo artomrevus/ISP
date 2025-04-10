@@ -51,6 +51,18 @@ namespace ISP.DAL.Migrations.AuthDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserEmployees",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    EmployeeId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserEmployees", x => x.UserId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -213,6 +225,9 @@ namespace ISP.DAL.Migrations.AuthDb
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "UserEmployees");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ISP.DAL.Migrations.AuthDb
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20250406160242_Initial")]
+    [Migration("20250409210525_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -24,6 +24,24 @@ namespace ISP.DAL.Migrations.AuthDb
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ISP.DAL.Entities.UserEmployee", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("UserId");
+
+                    b.Property<string>("EmployeeId")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("EmployeeId");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserEmployees", (string)null);
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {

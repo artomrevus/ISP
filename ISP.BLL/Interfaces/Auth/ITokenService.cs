@@ -6,5 +6,5 @@ public interface ITokenService
 {
     string CreateJwtToken(IdentityUser user, string role);
 
-    string CreateJwtToken(IdentityUser user, string role, int employeeId);
+    string CreateJwtToken(IdentityUser user, string role, string employeeId);
 }

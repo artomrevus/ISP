@@ -5,18 +5,18 @@ namespace ISP.BLL.Interfaces.ISP;
 
 public interface IClientService
 {
-    Task<IEnumerable<GetClientDto>> GetAllClientsAsync(
+    Task<IEnumerable<GetClientDto>> GetAllAsync(
         PaginationParameters pagination, 
         ClientFilterParameters filter, 
         SortingParameters sorting);
     
-    Task<GetClientDto> GetClientByIdAsync(int id);
+    Task<GetClientDto> GetByIdAsync(int id);
     
-    Task<GetClientDto> AddClientAsync(AddClientDto getClientDto);
+    Task<GetClientDto> AddAsync(AddClientDto dto);
     
-    Task<GetClientDto> UpdateClientAsync(UpdateClientDto getClientDto);
+    Task<GetClientDto> UpdateAsync(UpdateClientDto dto);
     
-    Task DeleteClientAsync(int id);
+    Task DeleteAsync(int id);
     
-    Task<int> GetTotalCountAsync(string? searchTerm = null);
+    Task<int> GetCountAsync(ClientFilterParameters filter);
 }

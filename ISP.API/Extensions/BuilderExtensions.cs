@@ -1,16 +1,15 @@
 using System.Text;
 using ISP.API.ModelBinders;
-using ISP.BLL.Interfaces;
 using ISP.BLL.Interfaces.Auth;
 using ISP.BLL.Interfaces.ISP;
 using ISP.BLL.Interfaces.Monitoring;
-using ISP.BLL.Services;
 using ISP.BLL.Services.Auth;
 using ISP.BLL.Services.ISP;
 using ISP.BLL.Services.Monitoring;
 using ISP.DAL;
 using ISP.DAL.Data;
 using ISP.DAL.Interfaces;
+using ISP.DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -85,6 +84,8 @@ public static class BuilderExtensions
     public static void AddDalServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        builder.Services.AddScoped<IUserEmployeeResolver, UserEmployeeResolver>();
+        builder.Services.AddScoped<IUserActivityRepository, UserActivityRepository>();
     }
     
     public static void AddBllServices(this WebApplicationBuilder builder)
@@ -96,5 +97,6 @@ public static class BuilderExtensions
         builder.Services.AddScoped<ITokenService, TokenService>();
         builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
         builder.Services.AddScoped<IEmployeeAuthService, EmployeeAuthService>();
+        builder.Services.AddScoped<IUserService, UserService>();
     }
 }
