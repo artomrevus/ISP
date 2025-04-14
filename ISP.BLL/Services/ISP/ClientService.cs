@@ -1,108 +1,50 @@
 using System.Linq.Expressions;
+using AutoMapper;
+using ISP.BLL.Constants;
 using ISP.BLL.DTOs.Filtering;
 using ISP.BLL.DTOs.ISP.Client;
-using ISP.BLL.Exceptions;
 using ISP.BLL.Extensions;
 using ISP.BLL.Interfaces.ISP;
-using ISP.BLL.Mappers;
 using ISP.DAL.Entities;
 using ISP.DAL.Interfaces;
 
 namespace ISP.BLL.Services.ISP;
 
-public class ClientService(
-    IUnitOfWork unitOfWork)
-    : IClientService
+public class ClientService(IUnitOfWork unitOfWork, IMapper mapper)
+    : IspService<Client, GetClientDto, AddClientDto, UpdateClientDto, ClientFilterParameters>(unitOfWork, mapper)
 {
-    private readonly IGenericRepository<Client> _clientRepository = unitOfWork.Repository<Client>();
-    
-    public async Task<IEnumerable<GetClientDto>> GetAllAsync(
-        PaginationParameters pagination, 
-        ClientFilterParameters filter, 
-        SortingParameters sorting)
-    {
-        var skipRecords = (pagination.PageNumber - 1) * pagination.PageSize;
-        var takeRecords = pagination.PageSize;
-        var filterExpression = BuildFilter(filter);
-        var orderByFunc = BuildOrderBy(sorting);
-
-        var clients = await _clientRepository.GetAsync(
-            skipRecords,
-            takeRecords,
-            filterExpression,
-            orderByFunc);
-        
-        return clients.ToGetClientDtos();
-    }
-
-    public async Task<GetClientDto> GetByIdAsync(int id)
-    {
-        var client = await _clientRepository.GetByIdAsync(id);
-
-        if (client is null)
-        {
-            throw new NotFoundException($"Client with id '{id}' not found.");
-        }
-
-        return client.ToGetClientDto();
-    }
-
-    public async Task<GetClientDto> AddAsync(AddClientDto dto)
-    {
-        var client = dto.ToClient();
-        client.CreateDateTime = DateTime.Now;
-        
-        await _clientRepository.AddAsync(client);
-        await unitOfWork.SaveChangesAsync();
-            
-        return client.ToGetClientDto();
-    }
-
-    public async Task<GetClientDto> UpdateAsync(UpdateClientDto dto)
-    {
-        var clientToUpdate = await _clientRepository.GetByIdAsync(dto.Id);
-            
-        if (clientToUpdate is null)
-        {
-            throw new NotFoundException($"Client with id '{dto.Id}' not found.");
-        }
-        
-        var updatedClient = dto.ToClient();
-        updatedClient.CreateDateTime = clientToUpdate.CreateDateTime;
-        updatedClient.UpdateDateTime = DateTime.Now;
-            
-        await _clientRepository.UpdateAsync(updatedClient);
-        await unitOfWork.SaveChangesAsync();
-            
-        return updatedClient.ToGetClientDto();
-    }
-
-    public async Task DeleteAsync(int id)
-    {
-        var clientToDelete = await _clientRepository.GetByIdAsync(id);
-        
-        if (clientToDelete is null)
-        {
-            throw new NotFoundException($"Client with id '{id}' not found.");
-        }
-        
-        await _clientRepository.DeleteAsync(clientToDelete);
-        await unitOfWork.SaveChangesAsync();
-    }
-
-    public async Task<int> GetCountAsync(ClientFilterParameters filter)
-    {
-        var filterExpression = BuildFilter(filter);
-        return await _clientRepository.CountAsync(filterExpression);
-    }
-
-    private static Expression<Func<Client, bool>> BuildFilter(ClientFilterParameters filterParameters)
+    protected override Expression<Func<Client, bool>> BuildFilter(ClientFilterParameters filterParameters)
     {
         Expression<Func<Client, bool>> filter = c => true;
         
         if (filterParameters.ClientStatusId.HasValue)
         {
             filter = filter.And(c => c.ClientStatusId == filterParameters.ClientStatusId.Value);
+        }
+        
+        if (filterParameters.LocationId.HasValue)
+        {
+            filter = filter.And(c => c.LocationId == filterParameters.LocationId.Value);
+        }
+        
+        if (filterParameters.LocationTypeId.HasValue)
+        {
+            filter = filter.And(c => c.Location.LocationTypeId == filterParameters.LocationTypeId.Value);
+        }
+        
+        if (filterParameters.HouseId.HasValue)
+        {
+            filter = filter.And(c => c.Location.HouseId == filterParameters.HouseId.Value);
+        }
+        
+        if (filterParameters.StreetId.HasValue)
+        {
+            filter = filter.And(c => c.Location.House.StreetId == filterParameters.StreetId.Value);
+        }
+        
+        if (filterParameters.CityId.HasValue)
+        {
+            filter = filter.And(c => c.Location.House.Street.CityId == filterParameters.CityId.Value);
         }
         
         if (!string.IsNullOrEmpty(filterParameters.FirstNameContains))
@@ -135,20 +77,34 @@ public class ClientService(
             filter = filter.And(c => c.RegistrationDate <= filterParameters.RegistrationDateTo.Value);
         }
         
+        if (!string.IsNullOrEmpty(filterParameters.ClientStatusContains))
+        {
+            filter = filter.And(
+                c => c.ClientStatus.ClientStatusName!.ToLower().Contains(filterParameters.ClientStatusContains.ToLower()));
+        }
+        
+        if (!string.IsNullOrEmpty(filterParameters.HouseNumberContains))
+        {
+            filter = filter.And(
+                c => c.Location.House.HouseNumber!.ToLower().Contains(filterParameters.HouseNumberContains.ToLower()));
+        }
+        
         if (!string.IsNullOrEmpty(filterParameters.StreetContains))
         {
-            filter = filter.And(c => c.Location.House.Street.StreetName.ToLower().Contains(filterParameters.StreetContains.ToLower()));
+            filter = filter.And(
+                c => c.Location.House.Street.StreetName.ToLower().Contains(filterParameters.StreetContains.ToLower()));
         }
         
         if (!string.IsNullOrEmpty(filterParameters.CityContains))
         {
-            filter = filter.And(c => c.Location.House.Street.City.CityName!.ToLower().Contains(filterParameters.CityContains.ToLower()));
+            filter = filter.And(
+                c => c.Location.House.Street.City.CityName!.ToLower().Contains(filterParameters.CityContains.ToLower()));
         }
 
         return filter;
     }
 
-    private static Func<IQueryable<Client>, IOrderedQueryable<Client>>? BuildOrderBy(SortingParameters sortingParameters)
+    protected override Func<IQueryable<Client>, IOrderedQueryable<Client>>? BuildSorting(SortingParameters sortingParameters)
     {
         if (string.IsNullOrEmpty(sortingParameters.SortBy))
         {
@@ -157,25 +113,28 @@ public class ClientService(
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            "firstname" => sortingParameters.Ascending
+            SortByValues.FirstName => sortingParameters.Ascending
                 ? q => q.OrderBy(c => c.FirstName)
                 : q => q.OrderByDescending(c => c.FirstName),
-            "lastname" => sortingParameters.Ascending
+            SortByValues.LastName => sortingParameters.Ascending
                 ? q => q.OrderBy(c => c.LastName)
                 : q => q.OrderByDescending(c => c.LastName),
-            "email" => sortingParameters.Ascending 
+            SortByValues.Email => sortingParameters.Ascending 
                 ? q => q.OrderBy(c => c.Email) 
                 : q => q.OrderByDescending(c => c.Email),
-            "registrationdate" => sortingParameters.Ascending
+            SortByValues.RegistrationDate => sortingParameters.Ascending
                 ? q => q.OrderBy(c => c.RegistrationDate)
                 : q => q.OrderByDescending(c => c.RegistrationDate),
-            "status" => sortingParameters.Ascending
+            SortByValues.ClientStatus => sortingParameters.Ascending
                 ? q => q.OrderBy(c => c.ClientStatus.ClientStatusName)
                 : q => q.OrderByDescending(c => c.ClientStatus.ClientStatusName),
-            "street" => sortingParameters.Ascending
+            SortByValues.HouseNumber => sortingParameters.Ascending
+                ? q => q.OrderBy(c => c.Location.House.HouseNumber)
+                : q => q.OrderByDescending(c => c.Location.House.HouseNumber),
+            SortByValues.Street => sortingParameters.Ascending
                 ? q => q.OrderBy(c => c.Location.House.Street.StreetName)
                 : q => q.OrderByDescending(c => c.Location.House.Street.StreetName),
-            "city" => sortingParameters.Ascending
+            SortByValues.City => sortingParameters.Ascending
                 ? q => q.OrderBy(c => c.Location.House.Street.City.CityName)
                 : q => q.OrderByDescending(c => c.Location.House.Street.City.CityName),
             _ => null

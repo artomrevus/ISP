@@ -1,5 +1,6 @@
 using ISP.API.Extensions;
 using ISP.API.Middleware;
+using ISP.BLL.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ builder.AddIdentityServices();
 
 builder.AddDalServices();
 builder.AddBllServices();
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

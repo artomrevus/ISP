@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using AutoMapper;
 using ISP.BLL.Constants;
 using ISP.BLL.DTOs.Filtering;
 using ISP.BLL.DTOs.Monitoring;
@@ -14,7 +15,8 @@ namespace ISP.BLL.Services.Monitoring;
 public class MonitoringService(
     IUserActivityRepository activityRepository,
     IUnitOfWork unitOfWork,
-    IUserService userService) : IMonitoringService
+    IUserService userService,
+    IMapper mapper) : IMonitoringService
 {
     public async Task LogActivityAsync(ClaimsPrincipal user, string actionOn, string action, string details)
     {
@@ -38,31 +40,7 @@ public class MonitoringService(
         await activityRepository.AddAsync(activity);
     }
 
-    public async Task LogActivityAsync(
-        string userId,
-        string? employeeId,
-        string userName,
-        string role,
-        string actionOn,
-        string action,
-        string details)
-    {
-        var activity = new UserActivity
-        {
-            UserId = userId,
-            EmployeeId = employeeId,
-            UserName = userName,
-            Role = role,
-            ActionOn = actionOn,
-            Action = action,
-            Timestamp = DateTime.Now,
-            Details = details,
-        };
-
-        await activityRepository.AddAsync(activity);
-    }
-
-    public async Task<IEnumerable<UserActivityDto>> GetUserActivitiesAsync(
+    public async Task<IEnumerable<GetUserActivityDto>> GetUserActivitiesAsync(
         ClaimsPrincipal user,
         PaginationParameters pagination,
         UserActivityFilterParameters filter)
@@ -75,13 +53,13 @@ public class MonitoringService(
         var filterDefinition = await BuildFilterAsync(userId, userRole, filter);
         var sortBy = Builders<UserActivity>.Sort.Descending(a => a.Timestamp);
 
-        var clients = await activityRepository.GetAsync(
+        var activities = await activityRepository.GetAsync(
             skipRecords,
             takeRecords,
             filterDefinition,
             sortBy);
         
-        return clients.ToDtos();
+        return mapper.Map<IEnumerable<GetUserActivityDto>>(activities);
     }
     
     public async Task<long> GetCountAsync(

@@ -1,6 +1,6 @@
 namespace ISP.BLL.DTOs.Monitoring;
 
-public class UserActivityDto
+public class GetUserActivityDto
 {
     public string UserId { get; set; }
     
