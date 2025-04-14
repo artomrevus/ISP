@@ -1,4 +1,3 @@
-using ISP.BLL.DTOs.Filtering;
 using ISP.BLL.DTOs.ISP.ClientStatus;
 using ISP.DAL.Entities;
 

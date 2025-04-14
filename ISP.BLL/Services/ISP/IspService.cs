@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 using AutoMapper;
-using ISP.BLL.DTOs.Filtering;
+using ISP.BLL.DTOs.ISP;
 using ISP.BLL.Exceptions;
 using ISP.BLL.Interfaces.ISP;
 using ISP.DAL.Interfaces;

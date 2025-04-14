@@ -1,5 +1,5 @@
 using ISP.BLL.Constants;
-using ISP.BLL.DTOs.Filtering;
+using ISP.BLL.DTOs.ISP;
 using ISP.BLL.Interfaces.ISP;
 using ISP.DAL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -44,7 +44,7 @@ public class IspController<TEntity, TGetDto, TAddDto, TUpdateDto, TFilter> (ISer
     public async Task<IActionResult> Add([FromBody] TAddDto dto)
     {
         var responseDto = await EntityService.AddAsync(dto);
-        return CreatedAtAction(nameof(GetById), responseDto);
+        return Ok(responseDto);
     }
     
     [HttpPut("{id:int}")]

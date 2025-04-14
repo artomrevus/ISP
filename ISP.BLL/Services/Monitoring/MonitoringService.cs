@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using AutoMapper;
 using ISP.BLL.Constants;
-using ISP.BLL.DTOs.Filtering;
+using ISP.BLL.DTOs.ISP;
 using ISP.BLL.DTOs.Monitoring;
 using ISP.BLL.Interfaces.Auth;
 using ISP.BLL.Interfaces.Monitoring;

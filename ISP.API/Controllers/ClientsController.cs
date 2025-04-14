@@ -1,4 +1,3 @@
-using ISP.BLL.DTOs.Filtering;
 using ISP.BLL.DTOs.ISP.Client;
 using ISP.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;

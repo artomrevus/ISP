@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using ISP.BLL.Constants;
-using ISP.BLL.DTOs.Filtering;
+using ISP.BLL.DTOs.ISP;
 using ISP.BLL.DTOs.ISP.Employee;
 using ISP.BLL.Extensions;
 using ISP.BLL.Interfaces.ISP;

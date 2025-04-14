@@ -1,4 +1,3 @@
-using ISP.BLL.DTOs.Filtering;
 using ISP.BLL.DTOs.ISP.Location;
 using ISP.BLL.DTOs.ISP.LocationType;
 using ISP.BLL.DTOs.ISP.Street;

@@ -1,7 +1,7 @@
 using ISP.BLL.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ISP.BLL.DTOs.Filtering;
+namespace ISP.BLL.DTOs.ISP.Client;
 
 public class ClientFilterParameters
 {

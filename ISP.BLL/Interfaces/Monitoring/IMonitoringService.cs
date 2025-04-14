@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using ISP.BLL.DTOs.Filtering;
+using ISP.BLL.DTOs.ISP;
 using ISP.BLL.DTOs.Monitoring;
 
 namespace ISP.BLL.Interfaces.Monitoring;

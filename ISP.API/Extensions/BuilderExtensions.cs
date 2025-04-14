@@ -1,13 +1,16 @@
 using System.Text;
 using ISP.API.ModelBinders;
-using ISP.BLL.DTOs.Filtering;
 using ISP.BLL.DTOs.ISP.City;
 using ISP.BLL.DTOs.ISP.Client;
 using ISP.BLL.DTOs.ISP.ClientStatus;
+using ISP.BLL.DTOs.ISP.ConnectionTariff;
 using ISP.BLL.DTOs.ISP.Employee;
 using ISP.BLL.DTOs.ISP.EmployeePosition;
 using ISP.BLL.DTOs.ISP.EmployeeStatus;
 using ISP.BLL.DTOs.ISP.House;
+using ISP.BLL.DTOs.ISP.InternetConnectionRequestStatus;
+using ISP.BLL.DTOs.ISP.InternetTariff;
+using ISP.BLL.DTOs.ISP.InternetTariffStatus;
 using ISP.BLL.DTOs.ISP.Location;
 using ISP.BLL.DTOs.ISP.LocationType;
 using ISP.BLL.DTOs.ISP.Office;
@@ -20,7 +23,6 @@ using ISP.BLL.Services.ISP;
 using ISP.BLL.Services.Monitoring;
 using ISP.DAL;
 using ISP.DAL.Data;
-using ISP.DAL.Entities;
 using ISP.DAL.Interfaces;
 using ISP.DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -110,17 +112,66 @@ public static class BuilderExtensions
 
     private static void AddIspBllServices(this IServiceCollection services)
     {
-        services.AddScoped<IIspService<GetCityDto, AddCityDto, UpdateCityDto, CityFilterParameters>, CityService>();
-        services.AddScoped<IIspService<GetClientDto, AddClientDto, UpdateClientDto, ClientFilterParameters>, ClientService>();
-        services.AddScoped<IIspService<GetClientStatusDto, AddClientStatusDto, UpdateClientStatusDto, ClientStatusFilterParameters>, ClientStatusService>();
-        services.AddScoped<IIspService<GetEmployeePositionDto, AddEmployeePositionDto, UpdateEmployeePositionDto, EmployeePositionFilterParameters>, EmployeePositionService>();
-        services.AddScoped<IIspService<GetEmployeeDto, AddEmployeeDto, UpdateEmployeeDto, EmployeeFilterParameters>, EmployeeService>();
-        services.AddScoped<IIspService<GetEmployeeStatusDto, AddEmployeeStatusDto, UpdateEmployeeStatusDto, EmployeeStatusFilterParameters>, EmployeeStatusService>();
-        services.AddScoped<IIspService<GetHouseDto, AddHouseDto, UpdateHouseDto, HouseFilterParameters>, HouseService>();
-        services.AddScoped<IIspService<GetLocationDto, AddLocationDto, UpdateLocationDto, LocationFilterParameters>, LocationService>();
-        services.AddScoped<IIspService<GetLocationTypeDto, AddLocationTypeDto, UpdateLocationTypeDto, LocationTypeFilterParameters>, LocationTypeService>();
-        services.AddScoped<IspService<Street, GetStreetDto, AddStreetDto, UpdateStreetDto, StreetFilterParameters>, StreetService>();
-        services.AddScoped<IspService<Office, GetOfficeDto, AddOfficeDto, UpdateOfficeDto, OfficeFilterParameters>, OfficeService>();
+        services.AddScoped<
+            IIspService<GetCityDto, AddCityDto, UpdateCityDto, CityFilterParameters>,
+            CityService
+        >();
+        services.AddScoped<
+            IIspService<GetClientDto, AddClientDto, UpdateClientDto, ClientFilterParameters>,
+            ClientService
+        >();
+        services.AddScoped<
+            IIspService<GetClientStatusDto, AddClientStatusDto, UpdateClientStatusDto, ClientStatusFilterParameters>,
+            ClientStatusService
+        >();
+        services.AddScoped<
+            IIspService<GetEmployeePositionDto, AddEmployeePositionDto, UpdateEmployeePositionDto, EmployeePositionFilterParameters>,
+            EmployeePositionService
+        >();
+        services.AddScoped<
+            IIspService<GetEmployeeDto, AddEmployeeDto, UpdateEmployeeDto, EmployeeFilterParameters>,
+            EmployeeService
+        >();
+        services.AddScoped<
+            IIspService<GetEmployeeStatusDto, AddEmployeeStatusDto, UpdateEmployeeStatusDto, EmployeeStatusFilterParameters>,
+            EmployeeStatusService
+        >();
+        services.AddScoped<
+            IIspService<GetHouseDto, AddHouseDto, UpdateHouseDto, HouseFilterParameters>,
+            HouseService
+        >();
+        services.AddScoped<
+            IIspService<GetLocationDto, AddLocationDto, UpdateLocationDto, LocationFilterParameters>,
+            LocationService
+        >();
+        services.AddScoped<
+            IIspService<GetLocationTypeDto, AddLocationTypeDto, UpdateLocationTypeDto, LocationTypeFilterParameters>,
+            LocationTypeService
+        >();
+        services.AddScoped<
+            IIspService<GetStreetDto, AddStreetDto, UpdateStreetDto, StreetFilterParameters>,
+            StreetService
+        >();
+        services.AddScoped<
+            IIspService<GetOfficeDto, AddOfficeDto, UpdateOfficeDto, OfficeFilterParameters>,
+            OfficeService
+        >();
+        services.AddScoped<
+            IIspService<GetInternetTariffStatusDto, AddInternetTariffStatusDto, UpdateInternetTariffStatusDto, InternetTariffStatusFilterParameters>,
+            InternetTariffStatusService
+        >();
+        services.AddScoped<
+            IIspService<GetInternetTariffDto, AddInternetTariffDto, UpdateInternetTariffDto, InternetTariffFilterParameters>,
+            InternetTariffService
+        >();
+        services.AddScoped<
+            IIspService<GetInternetConnectionRequestStatusDto, AddInternetConnectionRequestStatusDto, UpdateInternetConnectionRequestStatusDto, InternetConnectionRequestStatusFilterParameters>,
+            InternetConnectionRequestStatusService
+        >();
+        services.AddScoped<
+            IIspService<GetConnectionTariffDto, AddConnectionTariffDto, UpdateConnectionTariffDto, ConnectionTariffFilterParameters>,
+            ConnectionTariffService
+        >();
     }
     
     private static void AddMonitoringBllServices(this IServiceCollection services)

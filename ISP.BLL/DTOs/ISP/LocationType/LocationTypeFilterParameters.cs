@@ -1,4 +1,4 @@
-namespace ISP.BLL.DTOs.Filtering;
+namespace ISP.BLL.DTOs.ISP.LocationType;
 
 public class LocationTypeFilterParameters
 {

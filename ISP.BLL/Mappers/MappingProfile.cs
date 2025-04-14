@@ -2,10 +2,14 @@ using AutoMapper;
 using ISP.BLL.DTOs.ISP.City;
 using ISP.BLL.DTOs.ISP.Client;
 using ISP.BLL.DTOs.ISP.ClientStatus;
+using ISP.BLL.DTOs.ISP.ConnectionTariff;
 using ISP.BLL.DTOs.ISP.Employee;
 using ISP.BLL.DTOs.ISP.EmployeePosition;
 using ISP.BLL.DTOs.ISP.EmployeeStatus;
 using ISP.BLL.DTOs.ISP.House;
+using ISP.BLL.DTOs.ISP.InternetConnectionRequestStatus;
+using ISP.BLL.DTOs.ISP.InternetTariff;
+using ISP.BLL.DTOs.ISP.InternetTariffStatus;
 using ISP.BLL.DTOs.ISP.Location;
 using ISP.BLL.DTOs.ISP.LocationType;
 using ISP.BLL.DTOs.ISP.Office;
@@ -64,5 +68,21 @@ public class MappingProfile : Profile
         CreateMap<Street, GetStreetDto>();
         CreateMap<AddStreetDto, Street>();
         CreateMap<UpdateStreetDto, Street>();
+        
+        CreateMap<InternetTariff, GetInternetTariffDto>();
+        CreateMap<AddInternetTariffDto, InternetTariff>();
+        CreateMap<UpdateInternetTariffDto, InternetTariff>();
+        
+        CreateMap<InternetTariffStatus, GetInternetTariffStatusDto>();
+        CreateMap<AddInternetTariffStatusDto, InternetTariffStatus>();
+        CreateMap<UpdateInternetTariffStatusDto, InternetTariffStatus>();
+        
+        CreateMap<InternetConnectionRequestStatus, GetInternetConnectionRequestStatusDto>();
+        CreateMap<AddInternetConnectionRequestStatusDto, InternetConnectionRequestStatus>();
+        CreateMap<UpdateInternetConnectionRequestStatusDto, InternetConnectionRequestStatus>();
+        
+        CreateMap<ConnectionTariff, GetConnectionTariffDto>();
+        CreateMap<AddConnectionTariffDto, ConnectionTariff>();
+        CreateMap<UpdateConnectionTariffDto, ConnectionTariff>();
     }
 }

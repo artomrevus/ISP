@@ -1,4 +1,4 @@
-using ISP.BLL.DTOs.Filtering;
+using ISP.BLL.DTOs.ISP;
 using ISP.BLL.DTOs.Monitoring;
 using ISP.BLL.Interfaces.Monitoring;
 using Microsoft.AspNetCore.Authorization;

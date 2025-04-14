@@ -1,3 +1,6 @@
+using ISP.BLL.ModelBinders;
+using Microsoft.AspNetCore.Mvc;
+
 namespace ISP.BLL.DTOs.ISP.Client;
 
 public class UpdateClientDto
@@ -16,5 +19,6 @@ public class UpdateClientDto
 
     public string Email { get; set; } = null!;
     
+    [ModelBinder(BinderType = typeof(DateOnlyModelBinder))]
     public DateOnly RegistrationDate { get; set; }
 }
