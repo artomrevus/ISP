@@ -11,6 +11,8 @@ public class Contract : IEntity
     public int ContractStatusId { get; set; }
 
     public int EmployeeId { get; set; }
+    
+    public int InterviewId { get; set; }
 
     public string Number { get; set; } = null!;
 
@@ -25,8 +27,6 @@ public class Contract : IEntity
     public DateTime CreateDateTime { get; set; }
 
     public DateTime? UpdateDateTime { get; set; }
-
-    public int InterviewId { get; set; }
 
     public ContractStatus ContractStatus { get; set; } = null!;
 

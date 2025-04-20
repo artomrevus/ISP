@@ -1,10 +1,12 @@
 using AutoMapper;
+using ISP.BLL.DTOs.ISP.Candidate;
 using ISP.BLL.DTOs.ISP.City;
 using ISP.BLL.DTOs.ISP.Client;
 using ISP.BLL.DTOs.ISP.ClientStatus;
 using ISP.BLL.DTOs.ISP.Connection;
 using ISP.BLL.DTOs.ISP.ConnectionEquipment;
 using ISP.BLL.DTOs.ISP.ConnectionTariff;
+using ISP.BLL.DTOs.ISP.Contract;
 using ISP.BLL.DTOs.ISP.Employee;
 using ISP.BLL.DTOs.ISP.EmployeePosition;
 using ISP.BLL.DTOs.ISP.EmployeeStatus;
@@ -15,6 +17,8 @@ using ISP.BLL.DTOs.ISP.InternetConnectionRequest;
 using ISP.BLL.DTOs.ISP.InternetConnectionRequestStatus;
 using ISP.BLL.DTOs.ISP.InternetTariff;
 using ISP.BLL.DTOs.ISP.InternetTariffStatus;
+using ISP.BLL.DTOs.ISP.Interview;
+using ISP.BLL.DTOs.ISP.InterviewRequest;
 using ISP.BLL.DTOs.ISP.Location;
 using ISP.BLL.DTOs.ISP.LocationType;
 using ISP.BLL.DTOs.ISP.Office;
@@ -114,5 +118,21 @@ public class MappingProfile : Profile
         CreateMap<EquipmentType, GetEquipmentTypeDto>();
         CreateMap<AddEquipmentTypeDto, EquipmentType>();
         CreateMap<UpdateEquipmentTypeDto, EquipmentType>();
+        
+        CreateMap<Contract, GetContractDto>();
+        CreateMap<AddContractDto, Contract>();
+        CreateMap<UpdateContractDto, Contract>();
+        
+        CreateMap<Interview, GetInterviewDto>();
+        CreateMap<AddInterviewDto, Interview>();
+        CreateMap<UpdateInterviewDto, Interview>();
+        
+        CreateMap<InterviewRequest, GetInterviewRequestDto>();
+        CreateMap<AddInterviewRequestDto, InterviewRequest>();
+        CreateMap<UpdateInterviewRequestDto, InterviewRequest>();
+        
+        CreateMap<Candidate, GetCandidateDto>();
+        CreateMap<AddCandidateDto, Candidate>();
+        CreateMap<UpdateCandidateDto, Candidate>();
     }
 }

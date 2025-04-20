@@ -1,11 +1,13 @@
 using System.Text;
 using ISP.API.ModelBinders;
+using ISP.BLL.DTOs.ISP.Candidate;
 using ISP.BLL.DTOs.ISP.City;
 using ISP.BLL.DTOs.ISP.Client;
 using ISP.BLL.DTOs.ISP.ClientStatus;
 using ISP.BLL.DTOs.ISP.Connection;
 using ISP.BLL.DTOs.ISP.ConnectionEquipment;
 using ISP.BLL.DTOs.ISP.ConnectionTariff;
+using ISP.BLL.DTOs.ISP.Contract;
 using ISP.BLL.DTOs.ISP.Employee;
 using ISP.BLL.DTOs.ISP.EmployeePosition;
 using ISP.BLL.DTOs.ISP.EmployeeStatus;
@@ -16,6 +18,8 @@ using ISP.BLL.DTOs.ISP.InternetConnectionRequest;
 using ISP.BLL.DTOs.ISP.InternetConnectionRequestStatus;
 using ISP.BLL.DTOs.ISP.InternetTariff;
 using ISP.BLL.DTOs.ISP.InternetTariffStatus;
+using ISP.BLL.DTOs.ISP.Interview;
+using ISP.BLL.DTOs.ISP.InterviewRequest;
 using ISP.BLL.DTOs.ISP.Location;
 using ISP.BLL.DTOs.ISP.LocationType;
 using ISP.BLL.DTOs.ISP.Office;
@@ -228,6 +232,22 @@ public static class BuilderExtensions
         services.AddScoped<
             IIspService<GetEquipmentTypeDto, AddEquipmentTypeDto, UpdateEquipmentTypeDto, EquipmentTypeFilterParameters>,
             EquipmentTypeService
+        >();
+        services.AddScoped<
+            IIspService<GetContractDto, AddContractDto, UpdateContractDto, ContractFilterParameters>,
+            ContractService
+        >();
+        services.AddScoped<
+            IIspService<GetInterviewDto, AddInterviewDto, UpdateInterviewDto, InterviewFilterParameters>,
+            InterviewService
+        >();
+        services.AddScoped<
+            IIspService<GetInterviewRequestDto, AddInterviewRequestDto, UpdateInterviewRequestDto, InterviewRequestFilterParameters>,
+            InterviewRequestService
+        >();
+        services.AddScoped<
+            IIspService<GetCandidateDto, AddCandidateDto, UpdateCandidateDto, CandidateFilterParameters>,
+            CandidateService
         >();
     }
     
