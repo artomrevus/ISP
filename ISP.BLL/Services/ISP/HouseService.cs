@@ -17,29 +17,19 @@ public class HouseService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         Expression<Func<House, bool>> filter = c => true;
         
-        if (filterParameters.StreetId.HasValue)
+        if (filterParameters.StreetIds.Count > 0)
         {
-            filter = filter.And(x => x.StreetId == filterParameters.StreetId.Value);
+            filter = filter.And(x => filterParameters.StreetIds.Contains(x.StreetId));
         }
         
-        if (filterParameters.CityId.HasValue)
+        if (filterParameters.CityIds.Count > 0)
         {
-            filter = filter.And(x => x.Street.CityId == filterParameters.CityId.Value);
+            filter = filter.And(x => filterParameters.CityIds.Contains(x.Street.CityId));
         }
         
         if (!string.IsNullOrEmpty(filterParameters.HouseNumberContains))
         {
             filter = filter.And(x => x.HouseNumber!.ToLower().Contains(filterParameters.HouseNumberContains.ToLower()));
-        }
-        
-        if (!string.IsNullOrEmpty(filterParameters.StreetContains))
-        {
-            filter = filter.And(x => x.Street.StreetName.ToLower().Contains(filterParameters.StreetContains.ToLower()));
-        }
-        
-        if (!string.IsNullOrEmpty(filterParameters.CityContains))
-        {
-            filter = filter.And(x => x.Street.City.CityName!.ToLower().Contains(filterParameters.CityContains.ToLower()));
         }
 
         return filter;
@@ -54,15 +44,7 @@ public class HouseService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            SortByValues.Street => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.Street.StreetName)
-                : q => q.OrderByDescending(x => x.Street.StreetName),
-            SortByValues.City => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.Street.City.CityName)
-                : q => q.OrderByDescending(x => x.Street.City.CityName),
-            SortByValues.HouseNumber => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.HouseNumber)
-                : q => q.OrderByDescending(x => x.HouseNumber),
+            // To add sorting
             _ => null
         };
     }

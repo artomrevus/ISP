@@ -34,9 +34,7 @@ public class EmployeeStatusService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            SortByValues.EmployeeStatus => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.EmployeeStatusName)
-                : q => q.OrderByDescending(x => x.EmployeeStatusName),
+            // To add sorting
             _ => null
         };
     }

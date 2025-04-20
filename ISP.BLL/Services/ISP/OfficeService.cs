@@ -16,9 +16,9 @@ public class OfficeService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         Expression<Func<Office, bool>> filter = c => true;
         
-        if (filterParameters.CityId.HasValue)
+        if (filterParameters.CityIds.Count > 0)
         {
-            filter = filter.And(x => x.CityId == filterParameters.CityId.Value);
+            filter = filter.And(x => filterParameters.CityIds.Contains(x.CityId));
         }
         
         if (!string.IsNullOrEmpty(filterParameters.AddressContains))
@@ -35,11 +35,6 @@ public class OfficeService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             filter = filter.And(x => x.Email.ToLower().Contains(filterParameters.EmailContains.ToLower()));
         }
-        
-        if (!string.IsNullOrEmpty(filterParameters.CityContains))
-        {
-            filter = filter.And(x => x.City.CityName!.ToLower().Contains(filterParameters.CityContains.ToLower()));
-        }
 
         return filter;
     }
@@ -53,18 +48,7 @@ public class OfficeService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            SortByValues.Address => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.Address)
-                : q => q.OrderByDescending(x => x.Address),
-            SortByValues.PhoneNumber => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.PhoneNumber)
-                : q => q.OrderByDescending(x => x.PhoneNumber),
-            SortByValues.Email => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.Email)
-                : q => q.OrderByDescending(x => x.Email),
-            SortByValues.City => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.City.CityName)
-                : q => q.OrderByDescending(x => x.City.CityName),
+            // To add sorting
             _ => null
         };
     }

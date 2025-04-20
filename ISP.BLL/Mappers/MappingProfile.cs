@@ -2,17 +2,23 @@ using AutoMapper;
 using ISP.BLL.DTOs.ISP.City;
 using ISP.BLL.DTOs.ISP.Client;
 using ISP.BLL.DTOs.ISP.ClientStatus;
+using ISP.BLL.DTOs.ISP.Connection;
+using ISP.BLL.DTOs.ISP.ConnectionEquipment;
 using ISP.BLL.DTOs.ISP.ConnectionTariff;
 using ISP.BLL.DTOs.ISP.Employee;
 using ISP.BLL.DTOs.ISP.EmployeePosition;
 using ISP.BLL.DTOs.ISP.EmployeeStatus;
+using ISP.BLL.DTOs.ISP.Equipment;
+using ISP.BLL.DTOs.ISP.EquipmentType;
 using ISP.BLL.DTOs.ISP.House;
+using ISP.BLL.DTOs.ISP.InternetConnectionRequest;
 using ISP.BLL.DTOs.ISP.InternetConnectionRequestStatus;
 using ISP.BLL.DTOs.ISP.InternetTariff;
 using ISP.BLL.DTOs.ISP.InternetTariffStatus;
 using ISP.BLL.DTOs.ISP.Location;
 using ISP.BLL.DTOs.ISP.LocationType;
 using ISP.BLL.DTOs.ISP.Office;
+using ISP.BLL.DTOs.ISP.OfficeEquipment;
 using ISP.BLL.DTOs.ISP.Street;
 using ISP.BLL.DTOs.Monitoring;
 using ISP.DAL.Entities;
@@ -84,5 +90,29 @@ public class MappingProfile : Profile
         CreateMap<ConnectionTariff, GetConnectionTariffDto>();
         CreateMap<AddConnectionTariffDto, ConnectionTariff>();
         CreateMap<UpdateConnectionTariffDto, ConnectionTariff>();
+        
+        CreateMap<InternetConnectionRequest, GetInternetConnectionRequestDto>();
+        CreateMap<AddInternetConnectionRequestDto, InternetConnectionRequest>();
+        CreateMap<UpdateInternetConnectionRequestDto, InternetConnectionRequest>();
+        
+        CreateMap<Connection, GetConnectionDto>();
+        CreateMap<AddConnectionDto, Connection>();
+        CreateMap<UpdateConnectionDto, Connection>();
+        
+        CreateMap<ConnectionEquipment, GetConnectionEquipmentDto>();
+        CreateMap<AddConnectionEquipmentDto, ConnectionEquipment>();
+        CreateMap<UpdateConnectionEquipmentDto, ConnectionEquipment>();
+        
+        CreateMap<OfficeEquipment, GetOfficeEquipmentDto>();
+        CreateMap<AddOfficeEquipmentDto, OfficeEquipment>();
+        CreateMap<UpdateOfficeEquipmentDto, OfficeEquipment>();
+        
+        CreateMap<Equipment, GetEquipmentDto>();
+        CreateMap<AddEquipmentDto, Equipment>();
+        CreateMap<UpdateEquipmentDto, Equipment>();
+        
+        CreateMap<EquipmentType, GetEquipmentTypeDto>();
+        CreateMap<AddEquipmentTypeDto, EquipmentType>();
+        CreateMap<UpdateEquipmentTypeDto, EquipmentType>();
     }
 }

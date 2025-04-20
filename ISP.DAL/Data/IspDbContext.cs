@@ -241,7 +241,7 @@ public partial class IspDbContext(DbContextOptions<IspDbContext> options) : DbCo
         {
             entity.HasKey(e => e.Id);
 
-            entity.ToTable("ConnectionEquipment");
+            entity.ToTable("ConnectionEquipment", x => x.HasTrigger("ConnectionEquipmentTrigger"));
 
             entity.Property(e => e.Id).HasColumnName("connection_equipment_id");
             entity.Property(e => e.ConnectionEquipmentAmount).HasColumnName("connection_equipment_amount");

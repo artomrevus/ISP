@@ -43,9 +43,7 @@ public class InternetConnectionRequestStatusService(IUnitOfWork unitOfWork, IMap
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            SortByValues.InternetConnectionRequestStatus => sortingParameters.Ascending
-                ? q => q.OrderBy(c => c.InternetConnectionRequestStatusName)
-                : q => q.OrderByDescending(c => c.InternetConnectionRequestStatusName),
+            // To add sorting
             _ => null
         };
     }

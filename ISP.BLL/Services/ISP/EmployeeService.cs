@@ -17,42 +17,24 @@ public class EmployeeService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         Expression<Func<Employee, bool>> filter = c => true;
         
-        if (filterParameters.EmployeePositionId.HasValue)
+        if (filterParameters.EmployeePositionIds.Count > 0)
         {
-            filter = filter.And(x => x.EmployeePositionId == filterParameters.EmployeePositionId.Value);
+            filter = filter.And(x => filterParameters.EmployeePositionIds.Contains(x.EmployeePositionId));
         }
         
-        if (filterParameters.EmployeeStatusId.HasValue)
+        if (filterParameters.EmployeeStatusIds.Count > 0)
         {
-            filter = filter.And(x => x.EmployeeStatusId == filterParameters.EmployeeStatusId.Value);
+            filter = filter.And(x => filterParameters.EmployeeStatusIds.Contains(x.EmployeeStatusId));
         }
         
-        if (filterParameters.OfficeId.HasValue)
+        if (filterParameters.OfficeIds.Count > 0)
         {
-            filter = filter.And(x => x.OfficeId == filterParameters.OfficeId.Value);
+            filter = filter.And(x => filterParameters.OfficeIds.Contains(x.OfficeId));
         }
         
-        if (filterParameters.CityId.HasValue)
+        if (filterParameters.CityIds.Count > 0)
         {
-            filter = filter.And(x => x.Office.CityId == filterParameters.CityId.Value);
-        }
-        
-        if (!string.IsNullOrEmpty(filterParameters.EmployeePositionContains))
-        {
-            filter = filter.And(
-                x => x.EmployeePosition.EmployeePositionName!.ToLower().Contains(filterParameters.EmployeePositionContains.ToLower()));
-        }
-        
-        if (!string.IsNullOrEmpty(filterParameters.EmployeeStatusContains))
-        {
-            filter = filter.And(
-                x => x.EmployeeStatus.EmployeeStatusName!.ToLower().Contains(filterParameters.EmployeeStatusContains.ToLower()));
-        }
-        
-        if (!string.IsNullOrEmpty(filterParameters.CityContains))
-        {
-            filter = filter.And(
-                x => x.Office.City.CityName!.ToLower().Contains(filterParameters.CityContains.ToLower()));
+            filter = filter.And(x => filterParameters.CityIds.Contains(x.Office.CityId));
         }
 
         return filter;
@@ -67,15 +49,7 @@ public class EmployeeService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            SortByValues.EmployeePosition => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.EmployeePosition.EmployeePositionName)
-                : q => q.OrderByDescending(x => x.EmployeePosition.EmployeePositionName),
-            SortByValues.EmployeeStatus => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.EmployeeStatus.EmployeeStatusName)
-                : q => q.OrderByDescending(x => x.EmployeeStatus.EmployeeStatusName),
-            SortByValues.City => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.Office.City.CityName)
-                : q => q.OrderByDescending(x => x.Office.City.CityName),
+            // To add sorting
             _ => null
         };
     }

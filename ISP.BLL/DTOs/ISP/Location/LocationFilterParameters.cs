@@ -2,19 +2,11 @@ namespace ISP.BLL.DTOs.ISP.Location;
 
 public class LocationFilterParameters
 {
-    public int? LocationTypeId { get; set; }
+    public List<int> LocationTypeIds { get; set; } = [];
     
-    public int? HouseId { get; set; }
+    public List<int> HouseIds { get; set; } = [];
     
-    public int? StreetId { get; set; }
+    public List<int> StreetIds { get; set; } = [];
     
-    public int? CityId { get; set; }
-    
-    public string? LocationTypeContains { get; set; }
-    
-    public string? HouseNumberContains { get; set; }
-    
-    public string? StreetContains { get; set; }
-    
-    public string? CityContains { get; set; }
+    public List<int> CityIds { get; set; } = [];
 }

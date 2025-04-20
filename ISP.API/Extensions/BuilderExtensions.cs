@@ -3,17 +3,23 @@ using ISP.API.ModelBinders;
 using ISP.BLL.DTOs.ISP.City;
 using ISP.BLL.DTOs.ISP.Client;
 using ISP.BLL.DTOs.ISP.ClientStatus;
+using ISP.BLL.DTOs.ISP.Connection;
+using ISP.BLL.DTOs.ISP.ConnectionEquipment;
 using ISP.BLL.DTOs.ISP.ConnectionTariff;
 using ISP.BLL.DTOs.ISP.Employee;
 using ISP.BLL.DTOs.ISP.EmployeePosition;
 using ISP.BLL.DTOs.ISP.EmployeeStatus;
+using ISP.BLL.DTOs.ISP.Equipment;
+using ISP.BLL.DTOs.ISP.EquipmentType;
 using ISP.BLL.DTOs.ISP.House;
+using ISP.BLL.DTOs.ISP.InternetConnectionRequest;
 using ISP.BLL.DTOs.ISP.InternetConnectionRequestStatus;
 using ISP.BLL.DTOs.ISP.InternetTariff;
 using ISP.BLL.DTOs.ISP.InternetTariffStatus;
 using ISP.BLL.DTOs.ISP.Location;
 using ISP.BLL.DTOs.ISP.LocationType;
 using ISP.BLL.DTOs.ISP.Office;
+using ISP.BLL.DTOs.ISP.OfficeEquipment;
 using ISP.BLL.DTOs.ISP.Street;
 using ISP.BLL.Interfaces.Auth;
 using ISP.BLL.Interfaces.ISP;
@@ -27,6 +33,7 @@ using ISP.DAL.Interfaces;
 using ISP.DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -38,6 +45,19 @@ public static class BuilderExtensions
     {
         builder.Services.AddControllers(options =>
         {
+            options.CacheProfiles.Add(
+                "LongCache",
+                new CacheProfile
+                {
+                    Duration = 600,
+                });
+            options.CacheProfiles.Add(
+                "ShortCache",
+                new CacheProfile
+                {
+                    Duration = 60,
+                });
+            
             options.ModelBinderProviders.Insert(0, new DateOnlyModelBinderProvider());
         });
     }
@@ -94,6 +114,19 @@ public static class BuilderExtensions
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
                 };
             });
+    }
+    
+    public static void AddCorsService(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowUiOrigin", policyBuilder =>
+            {
+                policyBuilder.WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
+        });
     }
     
     public static void AddDalServices(this WebApplicationBuilder builder)
@@ -171,6 +204,30 @@ public static class BuilderExtensions
         services.AddScoped<
             IIspService<GetConnectionTariffDto, AddConnectionTariffDto, UpdateConnectionTariffDto, ConnectionTariffFilterParameters>,
             ConnectionTariffService
+        >();
+        services.AddScoped<
+            IIspService<GetInternetConnectionRequestDto, AddInternetConnectionRequestDto, UpdateInternetConnectionRequestDto, InternetConnectionRequestFilterParameters>,
+            InternetConnectionRequestService
+        >();
+        services.AddScoped<
+            IIspService<GetConnectionDto, AddConnectionDto, UpdateConnectionDto, ConnectionFilterParameters>,
+            ConnectionService
+        >();
+        services.AddScoped<
+            IIspService<GetConnectionEquipmentDto, AddConnectionEquipmentDto, UpdateConnectionEquipmentDto, ConnectionEquipmentFilterParameters>,
+            ConnectionEquipmentService
+        >();
+        services.AddScoped<
+            IIspService<GetOfficeEquipmentDto, AddOfficeEquipmentDto, UpdateOfficeEquipmentDto, OfficeEquipmentFilterParameters>,
+            OfficeEquipmentService
+        >();
+        services.AddScoped<
+            IIspService<GetEquipmentDto, AddEquipmentDto, UpdateEquipmentDto, EquipmentFilterParameters>,
+            EquipmentService
+        >();
+        services.AddScoped<
+            IIspService<GetEquipmentTypeDto, AddEquipmentTypeDto, UpdateEquipmentTypeDto, EquipmentTypeFilterParameters>,
+            EquipmentTypeService
         >();
     }
     

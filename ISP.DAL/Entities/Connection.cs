@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using ISP.DAL.Interfaces;
+﻿using ISP.DAL.Interfaces;
 
 namespace ISP.DAL.Entities;
 

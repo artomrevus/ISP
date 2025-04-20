@@ -34,9 +34,7 @@ public class ClientStatusService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            SortByValues.ClientStatus => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.ClientStatusName)
-                : q => q.OrderByDescending(x => x.ClientStatusName),
+            // To add sorting
             _ => null
         };
     }

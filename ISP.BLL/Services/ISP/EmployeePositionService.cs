@@ -34,9 +34,7 @@ public class EmployeePositionService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            SortByValues.EmployeePosition => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.EmployeePositionName)
-                : q => q.OrderByDescending(x => x.EmployeePositionName),
+            // To add sorting
             _ => null
         };
     }

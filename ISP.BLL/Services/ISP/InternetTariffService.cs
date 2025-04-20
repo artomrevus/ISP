@@ -16,14 +16,14 @@ public class InternetTariffService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         Expression<Func<InternetTariff, bool>> filter = c => true;
         
-        if (filterParameters.LocationTypeId.HasValue)
+        if (filterParameters.LocationTypeIds.Count > 0)
         {
-            filter = filter.And(x => x.LocationTypeId == filterParameters.LocationTypeId.Value);
+            filter = filter.And(x => filterParameters.LocationTypeIds.Contains(x.LocationTypeId));
         }
         
-        if (filterParameters.InternetTariffStatusId.HasValue)
+        if (filterParameters.InternetTariffStatusIds.Count > 0)
         {
-            filter = filter.And(x => x.InternetTariffStatusId == filterParameters.InternetTariffStatusId.Value);
+            filter = filter.And(x => filterParameters.InternetTariffStatusIds.Contains(x.InternetTariffStatusId));
         }
         
         if (filterParameters.PriceFrom.HasValue)
@@ -50,18 +50,6 @@ public class InternetTariffService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             filter = filter.And(x => x.Name.ToLower().Contains(filterParameters.NameContains.ToLower()));
         }
-        
-        if (!string.IsNullOrEmpty(filterParameters.LocationTypeContains))
-        {
-            filter = filter.And(
-                x => x.LocationType.LocationTypeName!.ToLower().Contains(filterParameters.LocationTypeContains.ToLower()));
-        }
-        
-        if (!string.IsNullOrEmpty(filterParameters.InternetTariffStatusContains))
-        {
-            filter = filter.And(
-                x => x.InternetTariffStatus.InternetTariffStatusName!.ToLower().Contains(filterParameters.InternetTariffStatusContains.ToLower()));
-        }
 
         return filter;
     }
@@ -75,21 +63,7 @@ public class InternetTariffService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            SortByValues.InternetTariffStatus => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.InternetTariffStatus.InternetTariffStatusName)
-                : q => q.OrderByDescending(x => x.InternetTariffStatus.InternetTariffStatusName),
-            SortByValues.LocationType => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.LocationType.LocationTypeName)
-                : q => q.OrderByDescending(x => x.LocationType.LocationTypeName),
-            SortByValues.Name => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.Name)
-                : q => q.OrderByDescending(x => x.Name),
-            SortByValues.Price => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.Price)
-                : q => q.OrderByDescending(x => x.Price),
-            SortByValues.InternetSpeed => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.InternetSpeedMbits)
-                : q => q.OrderByDescending(x => x.InternetSpeedMbits),
+            // To add sorting
             _ => null
         };
     }

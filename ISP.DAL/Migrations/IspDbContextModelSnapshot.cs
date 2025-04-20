@@ -302,7 +302,12 @@ namespace ISP.DAL.Migrations
 
                     b.HasIndex("OfficeEquipmentId");
 
-                    b.ToTable("ConnectionEquipment", (string)null);
+                    b.ToTable("ConnectionEquipment", null, t =>
+                        {
+                            t.HasTrigger("ConnectionEquipmentTrigger");
+                        });
+
+                    b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
 
             modelBuilder.Entity("ISP.DAL.Entities.ConnectionTariff", b =>

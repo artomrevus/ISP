@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ISP.API.Controllers;
 
-[Authorize(Roles = $"{IspRoles.Admin}")]
+[Authorize(Roles = $"{IspRoles.Admin}, {IspRoles.NetworkTechnician}")]
 [Route("api/[controller]")]
 [ApiController]
 public class IspController<TEntity, TGetDto, TAddDto, TUpdateDto, TFilter> (IServiceProvider serviceProvider): ControllerBase

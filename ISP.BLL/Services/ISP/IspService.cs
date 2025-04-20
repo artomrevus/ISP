@@ -43,7 +43,7 @@ public class IspService<TEntity, TGetDto, TAddDto, TUpdateDto, TFilter>(IUnitOfW
         return Mapper.Map<TGetDto>(entity);
     }
 
-    public virtual async  Task<TGetDto> AddAsync(TAddDto dto)
+    public virtual async Task<TGetDto> AddAsync(TAddDto dto)
     {
         var entity = Mapper.Map<TEntity>(dto);
         entity.CreateDateTime = DateTime.Now;

@@ -33,9 +33,7 @@ public class LocationTypeService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            SortByValues.LocationType => sortingParameters.Ascending
-                ? q => q.OrderBy(c => c.LocationTypeName)
-                : q => q.OrderByDescending(c => c.LocationTypeName),
+            // To add sorting
             _ => null
         };
     }

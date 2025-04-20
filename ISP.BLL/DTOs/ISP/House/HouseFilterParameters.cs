@@ -2,13 +2,9 @@ namespace ISP.BLL.DTOs.ISP.House;
 
 public class HouseFilterParameters
 {
-    public int? StreetId { get; set; }
+    public List<int> StreetIds { get; set; } = [];
     
-    public int? CityId { get; set; }
+    public List<int> CityIds { get; set; } = [];
     
     public string? HouseNumberContains { get; set; }
-    
-    public string? StreetContains { get; set; }
-    
-    public string? CityContains { get; set; }
 }

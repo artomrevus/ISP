@@ -34,9 +34,7 @@ public class InternetTariffStatusService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            SortByValues.InternetTariffStatus => sortingParameters.Ascending
-                ? q => q.OrderBy(c => c.InternetTariffStatusName)
-                : q => q.OrderByDescending(c => c.InternetTariffStatusName),
+            // To add sorting
             _ => null
         };
     }

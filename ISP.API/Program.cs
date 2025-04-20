@@ -13,6 +13,8 @@ builder.AddAuthDbContext();
 
 builder.AddIdentityServices();
 
+builder.AddCorsService();
+
 builder.AddDalServices();
 builder.AddBllServices();
 
@@ -31,6 +33,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseExceptionHandlingMiddleware();
+
+app.UseCors("AllowUiOrigin");
 
 app.UseAuthentication();
 app.UseAuthorization();

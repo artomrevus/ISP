@@ -4,7 +4,6 @@ using ISP.BLL.Constants;
 using ISP.BLL.DTOs.ISP;
 using ISP.BLL.DTOs.ISP.Client;
 using ISP.BLL.Extensions;
-using ISP.BLL.Interfaces.ISP;
 using ISP.DAL.Entities;
 using ISP.DAL.Interfaces;
 
@@ -17,34 +16,34 @@ public class ClientService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         Expression<Func<Client, bool>> filter = c => true;
         
-        if (filterParameters.ClientStatusId.HasValue)
+        if (filterParameters.ClientStatusIds.Count > 0)
         {
-            filter = filter.And(c => c.ClientStatusId == filterParameters.ClientStatusId.Value);
+            filter = filter.And(x => filterParameters.ClientStatusIds.Contains(x.ClientStatusId));
         }
         
-        if (filterParameters.LocationId.HasValue)
+        if (filterParameters.LocationIds.Count > 0)
         {
-            filter = filter.And(c => c.LocationId == filterParameters.LocationId.Value);
+            filter = filter.And(x => filterParameters.LocationIds.Contains(x.LocationId));
         }
         
-        if (filterParameters.LocationTypeId.HasValue)
+        if (filterParameters.LocationTypeIds.Count > 0)
         {
-            filter = filter.And(c => c.Location.LocationTypeId == filterParameters.LocationTypeId.Value);
+            filter = filter.And(x => filterParameters.LocationTypeIds.Contains(x.Location.LocationTypeId));
         }
         
-        if (filterParameters.HouseId.HasValue)
+        if (filterParameters.HouseIds.Count > 0)
         {
-            filter = filter.And(c => c.Location.HouseId == filterParameters.HouseId.Value);
+            filter = filter.And(x => filterParameters.HouseIds.Contains(x.Location.HouseId));
         }
         
-        if (filterParameters.StreetId.HasValue)
+        if (filterParameters.StreetIds.Count > 0)
         {
-            filter = filter.And(c => c.Location.House.StreetId == filterParameters.StreetId.Value);
+            filter = filter.And(x => filterParameters.StreetIds.Contains(x.Location.House.StreetId));
         }
         
-        if (filterParameters.CityId.HasValue)
+        if (filterParameters.CityIds.Count > 0)
         {
-            filter = filter.And(c => c.Location.House.Street.CityId == filterParameters.CityId.Value);
+            filter = filter.And(x => filterParameters.CityIds.Contains(x.Location.House.Street.CityId));
         }
         
         if (!string.IsNullOrEmpty(filterParameters.FirstNameContains))
@@ -76,30 +75,6 @@ public class ClientService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             filter = filter.And(c => c.RegistrationDate <= filterParameters.RegistrationDateTo.Value);
         }
-        
-        if (!string.IsNullOrEmpty(filterParameters.ClientStatusContains))
-        {
-            filter = filter.And(
-                c => c.ClientStatus.ClientStatusName!.ToLower().Contains(filterParameters.ClientStatusContains.ToLower()));
-        }
-        
-        if (!string.IsNullOrEmpty(filterParameters.HouseNumberContains))
-        {
-            filter = filter.And(
-                c => c.Location.House.HouseNumber!.ToLower().Contains(filterParameters.HouseNumberContains.ToLower()));
-        }
-        
-        if (!string.IsNullOrEmpty(filterParameters.StreetContains))
-        {
-            filter = filter.And(
-                c => c.Location.House.Street.StreetName.ToLower().Contains(filterParameters.StreetContains.ToLower()));
-        }
-        
-        if (!string.IsNullOrEmpty(filterParameters.CityContains))
-        {
-            filter = filter.And(
-                c => c.Location.House.Street.City.CityName!.ToLower().Contains(filterParameters.CityContains.ToLower()));
-        }
 
         return filter;
     }
@@ -113,30 +88,7 @@ public class ClientService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            SortByValues.FirstName => sortingParameters.Ascending
-                ? q => q.OrderBy(c => c.FirstName)
-                : q => q.OrderByDescending(c => c.FirstName),
-            SortByValues.LastName => sortingParameters.Ascending
-                ? q => q.OrderBy(c => c.LastName)
-                : q => q.OrderByDescending(c => c.LastName),
-            SortByValues.Email => sortingParameters.Ascending 
-                ? q => q.OrderBy(c => c.Email) 
-                : q => q.OrderByDescending(c => c.Email),
-            SortByValues.RegistrationDate => sortingParameters.Ascending
-                ? q => q.OrderBy(c => c.RegistrationDate)
-                : q => q.OrderByDescending(c => c.RegistrationDate),
-            SortByValues.ClientStatus => sortingParameters.Ascending
-                ? q => q.OrderBy(c => c.ClientStatus.ClientStatusName)
-                : q => q.OrderByDescending(c => c.ClientStatus.ClientStatusName),
-            SortByValues.HouseNumber => sortingParameters.Ascending
-                ? q => q.OrderBy(c => c.Location.House.HouseNumber)
-                : q => q.OrderByDescending(c => c.Location.House.HouseNumber),
-            SortByValues.Street => sortingParameters.Ascending
-                ? q => q.OrderBy(c => c.Location.House.Street.StreetName)
-                : q => q.OrderByDescending(c => c.Location.House.Street.StreetName),
-            SortByValues.City => sortingParameters.Ascending
-                ? q => q.OrderBy(c => c.Location.House.Street.City.CityName)
-                : q => q.OrderByDescending(c => c.Location.House.Street.City.CityName),
+            // To add sorting
             _ => null
         };
     }

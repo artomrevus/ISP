@@ -63,18 +63,7 @@ public class ConnectionTariffService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            SortByValues.Name => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.Name)
-                : q => q.OrderByDescending(x => x.Name),
-            SortByValues.Price => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.Price)
-                : q => q.OrderByDescending(x => x.Price),
-            SortByValues.StartDate => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.StartDate)
-                : q => q.OrderByDescending(x => x.StartDate),
-            SortByValues.EndDate => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.EndDate)
-                : q => q.OrderByDescending(x => x.EndDate),
+            // To add sorting
             _ => null
         };
     }

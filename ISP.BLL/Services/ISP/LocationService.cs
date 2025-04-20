@@ -16,48 +16,24 @@ public class LocationService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         Expression<Func<Location, bool>> filter = c => true;
         
-        if (filterParameters.LocationTypeId.HasValue)
+        if (filterParameters.LocationTypeIds.Count > 0) 
         {
-            filter = filter.And(x => x.LocationTypeId == filterParameters.LocationTypeId.Value);
+            filter = filter.And(x => filterParameters.LocationTypeIds.Contains(x.LocationTypeId));
         }
         
-        if (filterParameters.HouseId.HasValue)
+        if (filterParameters.HouseIds.Count > 0)
         {
-            filter = filter.And(x => x.HouseId == filterParameters.HouseId.Value);
+            filter = filter.And(x => filterParameters.HouseIds.Contains(x.HouseId));
         }
         
-        if (filterParameters.StreetId.HasValue)
+        if (filterParameters.StreetIds.Count > 0)
         {
-            filter = filter.And(x => x.House.StreetId == filterParameters.StreetId.Value);
+            filter = filter.And(x => filterParameters.StreetIds.Contains(x.House.StreetId));
         }
         
-        if (filterParameters.CityId.HasValue)
+        if (filterParameters.CityIds.Count > 0)
         {
-            filter = filter.And(x => x.House.Street.CityId == filterParameters.CityId.Value);
-        }
-        
-        if (!string.IsNullOrEmpty(filterParameters.LocationTypeContains))
-        {
-            filter = filter.And(
-                x => x.LocationType.LocationTypeName!.ToLower().Contains(filterParameters.LocationTypeContains.ToLower()));
-        }
-        
-        if (!string.IsNullOrEmpty(filterParameters.HouseNumberContains))
-        {
-            filter = filter.And(
-                x => x.House.HouseNumber!.ToLower().Contains(filterParameters.HouseNumberContains.ToLower()));
-        }
-        
-        if (!string.IsNullOrEmpty(filterParameters.StreetContains))
-        {
-            filter = filter.And(
-                x => x.House.Street.StreetName.ToLower().Contains(filterParameters.StreetContains.ToLower()));
-        }
-        
-        if (!string.IsNullOrEmpty(filterParameters.CityContains))
-        {
-            filter = filter.And(
-                x => x.House.Street.City.CityName!.ToLower().Contains(filterParameters.CityContains.ToLower()));
+            filter = filter.And(x => filterParameters.CityIds.Contains(x.House.Street.CityId));
         }
 
         return filter;
@@ -72,21 +48,7 @@ public class LocationService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            SortByValues.LocationType => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.LocationType)
-                : q => q.OrderByDescending(x => x.LocationType),
-            SortByValues.ApartmentNumber => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.ApartmentNumber)
-                : q => q.OrderByDescending(x => x.ApartmentNumber),
-            SortByValues.HouseNumber => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.House.HouseNumber)
-                : q => q.OrderByDescending(x => x.House.HouseNumber),
-            SortByValues.Street => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.House.Street.StreetName)
-                : q => q.OrderByDescending(x => x.House.Street.StreetName),
-            SortByValues.City => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.House.Street.City.CityName)
-                : q => q.OrderByDescending(x => x.House.Street.City.CityName),
+            // To add sorting
             _ => null
         };
     }

@@ -5,17 +5,17 @@ namespace ISP.BLL.DTOs.ISP.Client;
 
 public class ClientFilterParameters
 {
-    public int? ClientStatusId { get; set; }
+    public List<int> ClientStatusIds { get; set; } = [];
     
-    public int? LocationId { get; set; }
+    public List<int> LocationIds { get; set; } = [];
     
-    public int? LocationTypeId { get; set; }
+    public List<int> LocationTypeIds { get; set; } = [];
     
-    public int? HouseId { get; set; }
+    public List<int> HouseIds { get; set; } = [];
     
-    public int? StreetId { get; set; }
+    public List<int> StreetIds { get; set; } = [];
     
-    public int? CityId { get; set; }
+    public List<int> CityIds { get; set; } = [];
     
     public string? FirstNameContains { get; set; }
     
@@ -30,12 +30,4 @@ public class ClientFilterParameters
 
     [ModelBinder(BinderType = typeof(DateOnlyModelBinder))]
     public DateOnly? RegistrationDateTo { get; set; }
-    
-    public string? ClientStatusContains { get; set; }
-    
-    public string? HouseNumberContains { get; set; }
-    
-    public string? StreetContains { get; set; }
-    
-    public string? CityContains { get; set; }
 }

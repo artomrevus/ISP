@@ -16,19 +16,14 @@ public class StreetService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         Expression<Func<Street, bool>> filter = c => true;
         
-        if (filterParameters.CityId.HasValue)
+        if (filterParameters.CityIds.Count > 0)
         {
-            filter = filter.And(x => x.CityId == filterParameters.CityId.Value);
+            filter = filter.And(x => filterParameters.CityIds.Contains(x.CityId));
         }
         
         if (!string.IsNullOrEmpty(filterParameters.StreetContains))
         {
             filter = filter.And(x => x.StreetName.ToLower().Contains(filterParameters.StreetContains.ToLower()));
-        }
-        
-        if (!string.IsNullOrEmpty(filterParameters.CityContains))
-        {
-            filter = filter.And(x => x.City.CityName!.ToLower().Contains(filterParameters.CityContains.ToLower()));
         }
 
         return filter;
@@ -43,12 +38,7 @@ public class StreetService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            SortByValues.Street => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.StreetName)
-                : q => q.OrderByDescending(x => x.StreetName),
-            SortByValues.City => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.City.CityName)
-                : q => q.OrderByDescending(x => x.City.CityName),
+            // To add sorting
             _ => null
         };
     }

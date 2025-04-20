@@ -23,4 +23,16 @@ public static class SortByValues
     public const string InternetConnectionRequestStatus = "internetconnectionrequeststatus";
     public const string StartDate = "startdate";
     public const string EndDate = "enddate";
+    public const string Number = "number";
+    public const string RequestDate = "requestdate";
+    public const string ClientFirstName = "clientfirstname";
+    public const string ClientLastName = "clientlastname";
+    public const string InternetTariffName = "internettariffname";
+    public const string RequestNumber = "requestnumber";
+    public const string TotalPrice = "totalprice";
+    public const string ConnectionDate = "connectiondate";
+    public const string ConnectionTariffName = "connectiontariffname";
+    public const string ConnectionTariffPrice = "connectiontariffprice";
+    public const string ConnectionTariffStartDate = "connectiontariffstartdate";
+    public const string ConnectionTariffEndDate = "connectiontariffenddate";
 }

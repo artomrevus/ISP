@@ -34,9 +34,7 @@ public class CityService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            SortByValues.City => sortingParameters.Ascending
-                ? q => q.OrderBy(x => x.CityName)
-                : q => q.OrderByDescending(x => x.CityName),
+            // To add sorting
             _ => null
         };
     }
