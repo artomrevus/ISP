@@ -2,9 +2,9 @@ namespace ISP.BLL.DTOs.Monitoring;
 
 public class UserActivityFilterParameters
 {
-    public int? EmployeeId { get; set; }
+    public List<int> OfficeIds { get; set; } = [];
     
-    public int? EmployeeOfficeId { get; set; }
+    public List<int> CityIds { get; set; } = [];
     
     public DateTime? StartDateTime { get; set; }
     

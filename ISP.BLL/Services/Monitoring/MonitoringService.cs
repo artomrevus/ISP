@@ -5,7 +5,6 @@ using ISP.BLL.DTOs.ISP;
 using ISP.BLL.DTOs.Monitoring;
 using ISP.BLL.Interfaces.Auth;
 using ISP.BLL.Interfaces.Monitoring;
-using ISP.BLL.Mappers;
 using ISP.DAL.Entities;
 using ISP.DAL.Interfaces;
 using MongoDB.Driver;
@@ -33,7 +32,6 @@ public class MonitoringService(
             Role = role,
             ActionOn = actionOn,
             Action = action,
-            Timestamp = DateTime.Now,
             Details = details,
         };
 
@@ -104,27 +102,38 @@ public class MonitoringService(
             filterDefinition = Builders<UserActivity>.Filter.And(filterDefinition, roleFilter);
         }
         
-        if (filter.EmployeeId.HasValue)
-        {
-            var employeeFilter = Builders<UserActivity>.Filter.Eq(x => x.EmployeeId, filter.EmployeeId.Value.ToString());
-            filterDefinition = Builders<UserActivity>.Filter.And(filterDefinition, employeeFilter);
-        }
-        
-        if (filter.EmployeeOfficeId.HasValue)
+        if (filter.OfficeIds.Count > 0)
         {
             var employeesRepository = unitOfWork.Repository<Employee>();
-            var officeEmployees = await employeesRepository.GetAsync(
+            var officesEmployees = await employeesRepository.GetAsync(
                 null,
                 null,
-                x => x.OfficeId == filter.EmployeeOfficeId.Value
+                x => filter.OfficeIds.Contains(x.OfficeId)
             );
             
-            var officeEmployeeIds = officeEmployees.Select(x => x.Id.ToString()).ToList();
+            var officesEmployeeIds = officesEmployees.Select(x => x.Id.ToString()).ToList();
             
-            var officeFilter = Builders<UserActivity>.Filter.Where(x => 
-                x.EmployeeId != null && officeEmployeeIds.Contains(x.EmployeeId));
+            var officesFilter = Builders<UserActivity>.Filter.Where(x => 
+                x.EmployeeId != null && officesEmployeeIds.Contains(x.EmployeeId));
             
-            filterDefinition = Builders<UserActivity>.Filter.And(filterDefinition, officeFilter);
+            filterDefinition = Builders<UserActivity>.Filter.And(filterDefinition, officesFilter);
+        }
+        
+        if (filter.CityIds.Count > 0)
+        {
+            var employeesRepository = unitOfWork.Repository<Employee>();
+            var citiesEmployees = await employeesRepository.GetAsync(
+                null,
+                null,
+                x => filter.CityIds.Contains(x.Office.CityId)
+            );
+            
+            var citiesEmployeeIds = citiesEmployees.Select(x => x.Id.ToString()).ToList();
+            
+            var citiesFilter = Builders<UserActivity>.Filter.Where(x => 
+                x.EmployeeId != null && citiesEmployeeIds.Contains(x.EmployeeId));
+            
+            filterDefinition = Builders<UserActivity>.Filter.And(filterDefinition, citiesFilter);
         }
         
         if (!string.IsNullOrEmpty(filter.UserNameContains))

@@ -22,9 +22,10 @@ public class InternetConnectionRequestService(IUnitOfWork unitOfWork, IMapper ma
     {
         Expression<Func<InternetConnectionRequest, bool>> filter = c => true;
         
-        if (filterParameters.ClientIds.Count > 0)
+        if (filterParameters.ConnectionEmployeeIds.Count > 0)
         {
-            filter = filter.And(x => filterParameters.ClientIds.Contains(x.ClientId));
+            filter = filter.And(
+                x => filterParameters.ConnectionEmployeeIds.Contains(x.Connection != null ? x.Connection.EmployeeId : -1));
         }
         
         if (filterParameters.InternetTariffIds.Count > 0)
@@ -45,27 +46,10 @@ public class InternetConnectionRequestService(IUnitOfWork unitOfWork, IMapper ma
                 x => filterParameters.ClientStatusIds.Contains(x.Client.ClientStatusId));
         }
         
-        if (filterParameters.LocationIds.Count > 0)
-        {
-            filter = filter.And(
-                x => filterParameters.LocationIds.Contains(x.Client.LocationId));
-        }
-        
         if (filterParameters.LocationTypeIds.Count > 0)
         {
             filter = filter.And(
                 x => filterParameters.LocationTypeIds.Contains(x.Client.Location.LocationTypeId));
-        }
-
-        if (filterParameters.HouseIds.Count > 0)
-        {
-            filter = filter.And(x => filterParameters.HouseIds.Contains(x.Client.Location.HouseId));
-        }
-
-        if (filterParameters.StreetIds.Count > 0)
-        {
-            filter = filter.And(
-                x => filterParameters.StreetIds.Contains(x.Client.Location.House.StreetId));
         }
         
         if (filterParameters.CityIds.Count > 0)
@@ -111,7 +95,27 @@ public class InternetConnectionRequestService(IUnitOfWork unitOfWork, IMapper ma
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            // To add sorting
+            SortByValues.RequestDate => sortingParameters.Ascending 
+                ? q => q.OrderBy(x => x.RequestDate)
+                : q => q.OrderByDescending(x => x.RequestDate),
+            SortByValues.ClientFirstName => sortingParameters.Ascending 
+                ? q => q.OrderBy(x => x.Client.FirstName)
+                : q => q.OrderByDescending(x => x.Client.FirstName),
+            SortByValues.ClientLastName => sortingParameters.Ascending 
+                ? q => q.OrderBy(x => x.Client.LastName)
+                : q => q.OrderByDescending(x => x.Client.LastName),
+            SortByValues.InternetTariffPrice => sortingParameters.Ascending 
+                ? q => q.OrderBy(x => x.InternetTariff.Price)
+                : q => q.OrderByDescending(x => x.InternetTariff.Price),
+            SortByValues.InternetTariffSpeed => sortingParameters.Ascending 
+                ? q => q.OrderBy(x => x.InternetTariff.InternetSpeedMbits)
+                : q => q.OrderByDescending(x => x.InternetTariff.InternetSpeedMbits),
+            SortByValues.ConnectionTotalPrice => sortingParameters.Ascending 
+                ? q => q.OrderBy(x => x.Connection != null ? x.Connection.TotalPrice : decimal.MaxValue)
+                : q => q.OrderByDescending(x => x.Connection != null ? x.Connection.TotalPrice : decimal.MinValue),
+            SortByValues.ConnectionDate => sortingParameters.Ascending 
+                ? q => q.OrderBy(x => x.Connection != null ? x.Connection.ConnectionDate : DateOnly.MaxValue)
+                : q => q.OrderByDescending(x => x.Connection != null ? x.Connection.ConnectionDate : DateOnly.MinValue),
             _ => null
         };
     }

@@ -5,7 +5,7 @@ namespace ISP.BLL.DTOs.ISP.InternetConnectionRequest;
 
 public class InternetConnectionRequestFilterParameters
 {
-    public List<int> ClientIds { get; set; } = [];
+    public List<int> ConnectionEmployeeIds { get; set; } = [];
     
     public List<int> InternetTariffIds { get; set; } = [];
     
@@ -13,13 +13,7 @@ public class InternetConnectionRequestFilterParameters
     
     public List<int> ClientStatusIds { get; set; } = [];
     
-    public List<int> LocationIds { get; set; } = [];
-    
     public List<int> LocationTypeIds { get; set; } = [];
-    
-    public List<int> HouseIds { get; set; } = [];
-    
-    public List<int> StreetIds { get; set; } = [];
     
     public List<int> CityIds { get; set; } = [];
     

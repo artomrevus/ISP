@@ -36,4 +36,7 @@ public static class SortByValues
     public const string ConnectionTariffStartDate = "connectiontariffstartdate";
     public const string ConnectionTariffEndDate = "connectiontariffenddate";
     public const string ConclusionDate = "conclusiondate";
+    public const string InternetTariffPrice = "internettariffprice";
+    public const string InternetTariffSpeed = "internettariffspeed";
+    public const string ConnectionTotalPrice = "connectiontotalprice";
 }
