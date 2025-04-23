@@ -23,9 +23,16 @@ public class DateOnlyModelBinder : IModelBinder
         bindingContext.ModelState.SetModelValue(modelName, valueProviderResult);
 
         var value = valueProviderResult.FirstValue;
-
+        
         if (string.IsNullOrEmpty(value))
         {
+            var isNullable = Nullable.GetUnderlyingType(bindingContext.ModelType) != null;
+            
+            if (isNullable)
+            {
+                bindingContext.Result = ModelBindingResult.Success(null);
+            }
+            
             return Task.CompletedTask;
         }
 

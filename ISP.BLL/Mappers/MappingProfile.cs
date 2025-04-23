@@ -24,6 +24,8 @@ using ISP.BLL.DTOs.ISP.LocationType;
 using ISP.BLL.DTOs.ISP.Office;
 using ISP.BLL.DTOs.ISP.OfficeEquipment;
 using ISP.BLL.DTOs.ISP.Street;
+using ISP.BLL.DTOs.ISP.Vacancy;
+using ISP.BLL.DTOs.ISP.VacancyStatus;
 using ISP.BLL.DTOs.Monitoring;
 using ISP.DAL.Entities;
 
@@ -134,5 +136,13 @@ public class MappingProfile : Profile
         CreateMap<Candidate, GetCandidateDto>();
         CreateMap<AddCandidateDto, Candidate>();
         CreateMap<UpdateCandidateDto, Candidate>();
+        
+        CreateMap<Vacancy, GetVacancyDto>();
+        CreateMap<AddVacancyDto, Vacancy>();
+        CreateMap<UpdateVacancyDto, Vacancy>();
+        
+        CreateMap<VacancyStatus, GetVacancyStatusDto>();
+        CreateMap<AddVacancyStatusDto, VacancyStatus>();
+        CreateMap<UpdateVacancyStatusDto, VacancyStatus>();
     }
 }

@@ -25,6 +25,8 @@ using ISP.BLL.DTOs.ISP.LocationType;
 using ISP.BLL.DTOs.ISP.Office;
 using ISP.BLL.DTOs.ISP.OfficeEquipment;
 using ISP.BLL.DTOs.ISP.Street;
+using ISP.BLL.DTOs.ISP.Vacancy;
+using ISP.BLL.DTOs.ISP.VacancyStatus;
 using ISP.BLL.Interfaces.Auth;
 using ISP.BLL.Interfaces.ISP;
 using ISP.BLL.Interfaces.Monitoring;
@@ -248,6 +250,14 @@ public static class BuilderExtensions
         services.AddScoped<
             IIspService<GetCandidateDto, AddCandidateDto, UpdateCandidateDto, CandidateFilterParameters>,
             CandidateService
+        >();
+        services.AddScoped<
+            IIspService<GetVacancyDto, AddVacancyDto, UpdateVacancyDto, VacancyFilterParameters>,
+            VacancyService
+        >();
+        services.AddScoped<
+            IIspService<GetVacancyStatusDto, AddVacancyStatusDto, UpdateVacancyStatusDto, VacancyStatusFilterParameters>,
+            VacancyStatusService
         >();
     }
     

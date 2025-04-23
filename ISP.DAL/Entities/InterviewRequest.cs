@@ -19,7 +19,7 @@ public class InterviewRequest : IEntity
 
     public DateOnly ApplicationDate { get; set; }
 
-    public DateOnly ConsiderationDate { get; set; }
+    public DateOnly? ConsiderationDate { get; set; }
 
     public DateTime CreateDateTime { get; set; }
 

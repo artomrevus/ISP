@@ -690,7 +690,7 @@ public partial class IspDbContext(DbContextOptions<IspDbContext> options) : DbCo
             entity.Property(e => e.Id).HasColumnName("interview_request_id");
             entity.Property(e => e.ApplicationDate).HasColumnName("application_date");
             entity.Property(e => e.CandidateId).HasColumnName("candidate_id");
-            entity.Property(e => e.ConsiderationDate).HasColumnName("consideration_date");
+            entity.Property(e => e.ConsiderationDate).IsRequired(false).HasColumnName("consideration_date");
             entity.Property(e => e.CreateDateTime)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")

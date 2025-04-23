@@ -30,6 +30,13 @@ public class IspService<TEntity, TGetDto, TAddDto, TUpdateDto, TFilter>(IUnitOfW
         
         return Mapper.Map<IEnumerable<TGetDto>>(entities);
     }
+    
+    public virtual async Task<IEnumerable<TGetDto>> GetAllAsync(TFilter filter)
+    {
+        var filterExpression = BuildFilter(filter);
+        var entities = await Repository.GetAsync(filterExpression);
+        return Mapper.Map<IEnumerable<TGetDto>>(entities);
+    }
 
     public virtual async Task<TGetDto> GetByIdAsync(int id)
     {

@@ -19,5 +19,5 @@ public class GetInterviewRequestDto
     public DateOnly ApplicationDate { get; set; }
 
     [ModelBinder(BinderType = typeof(DateOnlyModelBinder))]
-    public DateOnly ConsiderationDate { get; set; }
+    public DateOnly? ConsiderationDate { get; set; }
 }

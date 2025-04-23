@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ISP.API.Controllers;
 
-[Authorize(Roles = $"{IspRoles.Admin}, {IspRoles.NetworkTechnician}")]
+[Authorize(Roles = $"{IspRoles.Admin}, {IspRoles.NetworkTechnician}, {IspRoles.HumanResource}")]
 [Route("api/[controller]")]
 [ApiController]
 public class IspController<TEntity, TGetDto, TAddDto, TUpdateDto, TFilter> (IServiceProvider serviceProvider): ControllerBase
@@ -17,12 +17,19 @@ public class IspController<TEntity, TGetDto, TAddDto, TUpdateDto, TFilter> (ISer
         serviceProvider.GetRequiredService<IIspService<TGetDto, TAddDto, TUpdateDto, TFilter>>();
     
     [HttpGet]
-    public async Task<IActionResult> GetAll(
+    public async Task<IActionResult> Get(
         [FromQuery] PaginationParameters pagination,
         [FromQuery] TFilter filter,
         [FromQuery] SortingParameters sorting)
     {
         var responseDto = await EntityService.GetAllAsync(pagination, filter, sorting);
+        return Ok(responseDto);
+    }
+    
+    [HttpGet("all")]
+    public async Task<IActionResult> GetAll( [FromQuery] TFilter filter)
+    {
+        var responseDto = await EntityService.GetAllAsync(filter);
         return Ok(responseDto);
     }
     

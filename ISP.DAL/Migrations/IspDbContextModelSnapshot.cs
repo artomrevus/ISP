@@ -946,7 +946,7 @@ namespace ISP.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("candidate_id");
 
-                    b.Property<DateOnly>("ConsiderationDate")
+                    b.Property<DateOnly?>("ConsiderationDate")
                         .HasColumnType("date")
                         .HasColumnName("consideration_date");
 

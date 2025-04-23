@@ -10,6 +10,8 @@ public interface IGenericRepository<T> where T : class
         Expression<Func<T, bool>>? filter = null,
         Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null);
     
+    Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>>? filter = null);
+    
     Task<T?> GetByIdAsync(int id);
     
     Task AddAsync(T entity);
