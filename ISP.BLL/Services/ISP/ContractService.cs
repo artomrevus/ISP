@@ -21,6 +21,11 @@ public class ContractService(IUnitOfWork unitOfWork, IMapper mapper)
             filter = filter.And(x => filterParameters.EmployeeIds.Contains(x.EmployeeId));
         }
         
+        if (filterParameters.InterviewIds.Count > 0)
+        {
+            filter = filter.And(x => filterParameters.InterviewIds.Contains(x.InterviewId));
+        }
+        
         return filter;
     }
 

@@ -8,6 +8,7 @@ using ISP.BLL.DTOs.ISP.Connection;
 using ISP.BLL.DTOs.ISP.ConnectionEquipment;
 using ISP.BLL.DTOs.ISP.ConnectionTariff;
 using ISP.BLL.DTOs.ISP.Contract;
+using ISP.BLL.DTOs.ISP.ContractStatus;
 using ISP.BLL.DTOs.ISP.Employee;
 using ISP.BLL.DTOs.ISP.EmployeePosition;
 using ISP.BLL.DTOs.ISP.EmployeeStatus;
@@ -20,6 +21,8 @@ using ISP.BLL.DTOs.ISP.InternetTariff;
 using ISP.BLL.DTOs.ISP.InternetTariffStatus;
 using ISP.BLL.DTOs.ISP.Interview;
 using ISP.BLL.DTOs.ISP.InterviewRequest;
+using ISP.BLL.DTOs.ISP.InterviewRequestStatus;
+using ISP.BLL.DTOs.ISP.InterviewResult;
 using ISP.BLL.DTOs.ISP.Location;
 using ISP.BLL.DTOs.ISP.LocationType;
 using ISP.BLL.DTOs.ISP.Office;
@@ -138,7 +141,7 @@ public static class BuilderExtensions
     public static void AddDalServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-        builder.Services.AddScoped<IUserEmployeeResolver, UserEmployeeResolver>();
+        builder.Services.AddScoped<IUserEmployeeRepository, UserEmployeeRepository>();
         builder.Services.AddScoped<IUserActivityRepository, UserActivityRepository>();
     }
     
@@ -258,6 +261,18 @@ public static class BuilderExtensions
         services.AddScoped<
             IIspService<GetVacancyStatusDto, AddVacancyStatusDto, UpdateVacancyStatusDto, VacancyStatusFilterParameters>,
             VacancyStatusService
+        >();
+        services.AddScoped<
+            IIspService<GetContractStatusDto, AddContractStatusDto, UpdateContractStatusDto, ContractStatusFilterParameters>,
+            ContractStatusService
+        >();
+        services.AddScoped<
+            IIspService<GetInterviewRequestStatusDto, AddInterviewRequestStatusDto, UpdateInterviewRequestStatusDto, InterviewRequestStatusFilterParameters>,
+            InterviewRequestStatusService
+        >();
+        services.AddScoped<
+            IIspService<GetInterviewResultDto, AddInterviewResultDto, UpdateInterviewResultDto, InterviewResultFilterParameters>,
+            InterviewResultService
         >();
     }
     

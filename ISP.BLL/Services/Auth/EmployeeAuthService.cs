@@ -1,9 +1,10 @@
-using System.Linq.Expressions;
 using ISP.BLL.Constants;
 using ISP.BLL.DTOs.Auth;
+using ISP.BLL.DTOs.ISP.Employee;
+using ISP.BLL.DTOs.ISP.EmployeePosition;
 using ISP.BLL.Exceptions;
 using ISP.BLL.Interfaces.Auth;
-using ISP.DAL.Entities;
+using ISP.BLL.Interfaces.ISP;
 using ISP.DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
@@ -12,35 +13,90 @@ namespace ISP.BLL.Services.Auth;
 public class EmployeeAuthService(
     UserManager<IdentityUser> userManager,
     ITokenService tokenService,
-    IUserEmployeeResolver userEmployeeResolver)
+    IUserEmployeeRepository userEmployeeRepository,
+    IIspService<GetEmployeeDto, AddEmployeeDto, UpdateEmployeeDto, EmployeeFilterParameters> employeeService,
+    IIspService<GetEmployeePositionDto, AddEmployeePositionDto, UpdateEmployeePositionDto, EmployeePositionFilterParameters> employeePositionService)
     : IEmployeeAuthService
 {
-    public async Task<LoginEmployeeResponseDto> LoginAsync(LoginRequestDto entity)
+    public async Task<LoginEmployeeResponseDto> LoginAsync(LoginRequestDto dto)
     {
-        var identityUser = await userManager.FindByNameAsync(entity.UserName);
+        var identityUser = await userManager.FindByNameAsync(dto.UserName);
         if (identityUser is null)
         {
             throw new AuthException("Invalid username.");
         }
             
-        var checkResult = await userManager.CheckPasswordAsync(identityUser, entity.Password);
+        var checkResult = await userManager.CheckPasswordAsync(identityUser, dto.Password);
         if (!checkResult)
         {
             throw new AuthException("Invalid password.");
         }
 
         var userRole = await EnsureValidRoleAsync(identityUser);
-        var employeeId = await userEmployeeResolver.GetEmployeeIdByUserIdAsync(identityUser.Id);
+        var employeeId = await userEmployeeRepository.GetEmployeeIdByUserIdAsync(identityUser.Id);
         var jwtToken = tokenService.CreateJwtToken(identityUser, userRole, employeeId);
             
         return new LoginEmployeeResponseDto
         {
             UserId = identityUser.Id,
             EmployeeId = employeeId,
-            UserName = entity.UserName,
+            UserName = dto.UserName,
             Role = userRole,
             Token = jwtToken,
         };
+    }
+
+    public async Task<RegisterEmployeeResponseDto> RegisterAsync(RegisterEmployeeRequestDto dto)
+    {
+        var user = new IdentityUser
+        {
+            UserName = dto.UserName,
+        };
+            
+        var identityResult = await userManager.CreateAsync(user, dto.Password);
+        if (!identityResult.Succeeded)
+        {
+            var errors = string.Join(", ", identityResult.Errors.Select(e => e.Description));
+            throw new AuthException($"Failed to create user. Errors: {errors}");
+        }
+
+        var role = await GetRoleByEmployeeAsync(dto.EmployeeId);
+        identityResult = await userManager.AddToRoleAsync(user, role);
+        if (!identityResult.Succeeded)
+        {
+            var errors = string.Join(", ", identityResult.Errors.Select(e => e.Description));
+            throw new AuthException($"Failed to add user role. Errors: {errors}");
+        }
+
+        await userEmployeeRepository.AddUserEmployeeAsync(user.Id, dto.EmployeeId.ToString());
+            
+        return new RegisterEmployeeResponseDto
+        {
+            UserId = user.Id,
+            EmployeeId = dto.EmployeeId.ToString(),
+            UserName = dto.UserName,
+            Role = role,
+        };
+    }
+    
+    public async Task DeleteAsync(string employeeId)
+    {
+        var userId = await userEmployeeRepository.GetUserIdByEmployeeIdAsync(employeeId);
+        var identityUser = await userManager.FindByIdAsync(userId);
+        
+        if (identityUser is null)
+        {
+            throw new AuthException("No user found.");
+        }
+
+        await userManager.DeleteAsync(identityUser);
+    }
+
+    private async Task<string> GetRoleByEmployeeAsync(int employeeId)
+    {
+        var employee = await employeeService.GetByIdAsync(employeeId);
+        var employeePosition = await employeePositionService.GetByIdAsync(employee.EmployeePositionId);
+        return IspRoles.PositionsRoles[employeePosition.EmployeePositionName];
     }
 
     private async Task<string> EnsureValidRoleAsync(IdentityUser identityUser)

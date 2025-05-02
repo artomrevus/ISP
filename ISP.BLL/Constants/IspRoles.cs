@@ -1,6 +1,6 @@
 namespace ISP.BLL.Constants;
 
-public class IspRoles
+public static class IspRoles
 {
     public const string Admin = "Admin";
     public const string OfficeManager = "OfficeManager";
@@ -18,4 +18,12 @@ public class IspRoles
             HumanResource,
         ];
     }
+
+    public static Dictionary<string, string> PositionsRoles = new()
+    {
+        { EmployeePositionConstants.OfficeManager, IspRoles.OfficeManager },
+        { EmployeePositionConstants.WarehouseWorker, IspRoles.WarehouseWorker },
+        { EmployeePositionConstants.NetworkTechnician, IspRoles.NetworkTechnician },
+        { EmployeePositionConstants.Recruiter, IspRoles.HumanResource },
+    };
 }

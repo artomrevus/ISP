@@ -7,6 +7,7 @@ using ISP.BLL.DTOs.ISP.Connection;
 using ISP.BLL.DTOs.ISP.ConnectionEquipment;
 using ISP.BLL.DTOs.ISP.ConnectionTariff;
 using ISP.BLL.DTOs.ISP.Contract;
+using ISP.BLL.DTOs.ISP.ContractStatus;
 using ISP.BLL.DTOs.ISP.Employee;
 using ISP.BLL.DTOs.ISP.EmployeePosition;
 using ISP.BLL.DTOs.ISP.EmployeeStatus;
@@ -19,6 +20,8 @@ using ISP.BLL.DTOs.ISP.InternetTariff;
 using ISP.BLL.DTOs.ISP.InternetTariffStatus;
 using ISP.BLL.DTOs.ISP.Interview;
 using ISP.BLL.DTOs.ISP.InterviewRequest;
+using ISP.BLL.DTOs.ISP.InterviewRequestStatus;
+using ISP.BLL.DTOs.ISP.InterviewResult;
 using ISP.BLL.DTOs.ISP.Location;
 using ISP.BLL.DTOs.ISP.LocationType;
 using ISP.BLL.DTOs.ISP.Office;
@@ -144,5 +147,17 @@ public class MappingProfile : Profile
         CreateMap<VacancyStatus, GetVacancyStatusDto>();
         CreateMap<AddVacancyStatusDto, VacancyStatus>();
         CreateMap<UpdateVacancyStatusDto, VacancyStatus>();
+        
+        CreateMap<ContractStatus, GetContractStatusDto>();
+        CreateMap<AddContractStatusDto, ContractStatus>();
+        CreateMap<UpdateContractStatusDto, ContractStatus>();
+        
+        CreateMap<InterviewRequestStatus, GetInterviewRequestStatusDto>();
+        CreateMap<AddInterviewRequestStatusDto, InterviewRequestStatus>();
+        CreateMap<UpdateInterviewRequestStatusDto, InterviewRequestStatus>();
+        
+        CreateMap<InterviewResult, GetInterviewResultDto>();
+        CreateMap<AddInterviewResultDto, InterviewResult>();
+        CreateMap<UpdateInterviewResultDto, InterviewResult>();
     }
 }

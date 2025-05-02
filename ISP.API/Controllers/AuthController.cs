@@ -24,4 +24,20 @@ public class AuthController(IAdminAuthService adminAuthService, IEmployeeAuthSer
         var responseDto = await employeeAuthService.LoginAsync(loginRequestDto);
         return Ok(responseDto);
     }
+    
+    [HttpPost]
+    [Route("register/employee")]
+    public async Task<IActionResult> RegisterEmployee([FromBody] RegisterEmployeeRequestDto registerRequestDto)
+    {
+        var responseDto = await employeeAuthService.RegisterAsync(registerRequestDto);
+        return Ok(responseDto);
+    }
+    
+    [HttpDelete]
+    [Route("delete/{employeeId}")]
+    public async Task<IActionResult> DeleteEmployee([FromRoute] string employeeId)
+    {
+        await employeeAuthService.DeleteAsync(employeeId);
+        return NoContent();
+    }
 }

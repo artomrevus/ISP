@@ -12,5 +12,6 @@ public static class SortByValues
     public const string ConnectionTotalPrice = "connectiontotalprice";
     public const string AppearanceDate = "appearancedate";
     public const string MonthRate = "monthrate";
-    public const string InterviewRequestsCount = "interviewrequestcount";
+    public const string InterviewRequestsCount = "interviewrequestscount";
+    public const string ApplicationDate = "applicationdate";
 }
