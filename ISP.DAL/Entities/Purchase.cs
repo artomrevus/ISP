@@ -16,7 +16,7 @@ public class Purchase : IEntity
 
     public decimal TotalPrice { get; set; }
 
-    public DateTime Date { get; set; }
+    public DateOnly Date { get; set; }
 
     public DateTime CreateDateTime { get; set; }
 

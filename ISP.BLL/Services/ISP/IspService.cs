@@ -31,10 +31,12 @@ public class IspService<TEntity, TGetDto, TAddDto, TUpdateDto, TFilter>(IUnitOfW
         return Mapper.Map<IEnumerable<TGetDto>>(entities);
     }
     
-    public virtual async Task<IEnumerable<TGetDto>> GetAllAsync(TFilter filter)
+    public virtual async Task<IEnumerable<TGetDto>> GetAllAsync(TFilter filter, SortingParameters sorting)
     {
         var filterExpression = BuildFilter(filter);
-        var entities = await Repository.GetAsync(filterExpression);
+        var sortingFunc = BuildSorting(sorting);
+        
+        var entities = await Repository.GetAsync(filterExpression, sortingFunc);
         return Mapper.Map<IEnumerable<TGetDto>>(entities);
     }
 

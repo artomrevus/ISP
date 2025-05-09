@@ -13,6 +13,7 @@ using ISP.BLL.DTOs.ISP.Employee;
 using ISP.BLL.DTOs.ISP.EmployeePosition;
 using ISP.BLL.DTOs.ISP.EmployeeStatus;
 using ISP.BLL.DTOs.ISP.Equipment;
+using ISP.BLL.DTOs.ISP.EquipmentPlacement;
 using ISP.BLL.DTOs.ISP.EquipmentType;
 using ISP.BLL.DTOs.ISP.House;
 using ISP.BLL.DTOs.ISP.InternetConnectionRequest;
@@ -27,7 +28,11 @@ using ISP.BLL.DTOs.ISP.Location;
 using ISP.BLL.DTOs.ISP.LocationType;
 using ISP.BLL.DTOs.ISP.Office;
 using ISP.BLL.DTOs.ISP.OfficeEquipment;
+using ISP.BLL.DTOs.ISP.Purchase;
+using ISP.BLL.DTOs.ISP.PurchaseEquipment;
+using ISP.BLL.DTOs.ISP.PurchaseStatus;
 using ISP.BLL.DTOs.ISP.Street;
+using ISP.BLL.DTOs.ISP.Supplier;
 using ISP.BLL.DTOs.ISP.Vacancy;
 using ISP.BLL.DTOs.ISP.VacancyStatus;
 using ISP.BLL.Interfaces.Auth;
@@ -273,6 +278,26 @@ public static class BuilderExtensions
         services.AddScoped<
             IIspService<GetInterviewResultDto, AddInterviewResultDto, UpdateInterviewResultDto, InterviewResultFilterParameters>,
             InterviewResultService
+        >();
+        services.AddScoped<
+            IIspService<GetPurchaseStatusDto, AddPurchaseStatusDto, UpdatePurchaseStatusDto, PurchaseStatusFilterParameters>,
+            PurchaseStatusService
+        >();
+        services.AddScoped<
+            IIspService<GetSupplierDto, AddSupplierDto, UpdateSupplierDto, SupplierFilterParameters>,
+            SupplierService
+        >();
+        services.AddScoped<
+            IIspService<GetPurchaseDto, AddPurchaseDto, UpdatePurchaseDto, PurchaseFilterParameters>,
+            PurchaseService
+        >();
+        services.AddScoped<
+            IIspService<GetPurchaseEquipmentDto, AddPurchaseEquipmentDto, UpdatePurchaseEquipmentDto, PurchaseEquipmentFilterParameters>,
+            PurchaseEquipmentService
+        >();
+        services.AddScoped<
+            IIspService<GetEquipmentPlacementDto, AddEquipmentPlacementDto, UpdateEquipmentPlacementDto, EquipmentPlacementFilterParameters>,
+            EquipmentPlacementService
         >();
     }
     

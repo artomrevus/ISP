@@ -10,7 +10,7 @@ public class PurchaseEquipment : IEntity
 
     public int EquipmentId { get; set; }
 
-    public string PurchaseEquipmentAmount { get; set; } = null!;
+    public int PurchaseEquipmentAmount { get; set; }
 
     public decimal Price { get; set; }
 

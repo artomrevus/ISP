@@ -14,9 +14,9 @@ public class EquipmentPlacement : IEntity
 
     public int OfficeEquipmentId { get; set; }
 
-    public string EquipmentPlacementAmount { get; set; } = null!;
+    public int EquipmentPlacementAmount { get; set; }
 
-    public DateTime Date { get; set; }
+    public DateOnly Date { get; set; }
 
     public DateTime CreateDateTime { get; set; }
 

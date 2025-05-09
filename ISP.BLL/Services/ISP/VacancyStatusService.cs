@@ -1,5 +1,4 @@
 using AutoMapper;
-using ISP.BLL.DTOs.ISP.Vacancy;
 using ISP.BLL.DTOs.ISP.VacancyStatus;
 using ISP.DAL.Entities;
 using ISP.DAL.Interfaces;

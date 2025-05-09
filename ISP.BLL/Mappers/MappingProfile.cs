@@ -12,6 +12,7 @@ using ISP.BLL.DTOs.ISP.Employee;
 using ISP.BLL.DTOs.ISP.EmployeePosition;
 using ISP.BLL.DTOs.ISP.EmployeeStatus;
 using ISP.BLL.DTOs.ISP.Equipment;
+using ISP.BLL.DTOs.ISP.EquipmentPlacement;
 using ISP.BLL.DTOs.ISP.EquipmentType;
 using ISP.BLL.DTOs.ISP.House;
 using ISP.BLL.DTOs.ISP.InternetConnectionRequest;
@@ -26,7 +27,11 @@ using ISP.BLL.DTOs.ISP.Location;
 using ISP.BLL.DTOs.ISP.LocationType;
 using ISP.BLL.DTOs.ISP.Office;
 using ISP.BLL.DTOs.ISP.OfficeEquipment;
+using ISP.BLL.DTOs.ISP.Purchase;
+using ISP.BLL.DTOs.ISP.PurchaseEquipment;
+using ISP.BLL.DTOs.ISP.PurchaseStatus;
 using ISP.BLL.DTOs.ISP.Street;
+using ISP.BLL.DTOs.ISP.Supplier;
 using ISP.BLL.DTOs.ISP.Vacancy;
 using ISP.BLL.DTOs.ISP.VacancyStatus;
 using ISP.BLL.DTOs.Monitoring;
@@ -159,5 +164,29 @@ public class MappingProfile : Profile
         CreateMap<InterviewResult, GetInterviewResultDto>();
         CreateMap<AddInterviewResultDto, InterviewResult>();
         CreateMap<UpdateInterviewResultDto, InterviewResult>();
+        
+        CreateMap<VacancyStatus, GetVacancyStatusDto>();
+        CreateMap<AddVacancyStatusDto, VacancyStatus>();
+        CreateMap<UpdateVacancyStatusDto, VacancyStatus>();
+        
+        CreateMap<PurchaseStatus, GetPurchaseStatusDto>();
+        CreateMap<AddPurchaseStatusDto, PurchaseStatus>();
+        CreateMap<UpdatePurchaseStatusDto, PurchaseStatus>();
+        
+        CreateMap<Supplier, GetSupplierDto>();
+        CreateMap<AddSupplierDto, Supplier>();
+        CreateMap<UpdateSupplierDto, Supplier>();
+        
+        CreateMap<Purchase, GetPurchaseDto>();
+        CreateMap<AddPurchaseDto, Purchase>();
+        CreateMap<UpdatePurchaseDto, Purchase>();
+        
+        CreateMap<PurchaseEquipment, GetPurchaseEquipmentDto>();
+        CreateMap<AddPurchaseEquipmentDto, PurchaseEquipment>();
+        CreateMap<UpdatePurchaseEquipmentDto, PurchaseEquipment>();
+        
+        CreateMap<EquipmentPlacement, GetEquipmentPlacementDto>();
+        CreateMap<AddEquipmentPlacementDto, EquipmentPlacement>();
+        CreateMap<UpdateEquipmentPlacementDto, EquipmentPlacement>();
     }
 }

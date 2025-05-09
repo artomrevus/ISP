@@ -14,4 +14,7 @@ public static class SortByValues
     public const string MonthRate = "monthrate";
     public const string InterviewRequestsCount = "interviewrequestscount";
     public const string ApplicationDate = "applicationdate";
+    public const string PurchaseDate = "purchasedate";
+    public const string PurchaseTotalPrice = "purchasetotalprice";
+    public const string PurchaseEquipmentsCount = "purchaseequipmentscount";
 }

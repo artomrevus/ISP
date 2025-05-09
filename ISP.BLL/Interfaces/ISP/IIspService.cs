@@ -9,7 +9,7 @@ public interface IIspService<TGetDto, in TAddDto, in TUpdateDto, in TFilter>
         TFilter filter, 
         SortingParameters sorting);
     
-    Task<IEnumerable<TGetDto>> GetAllAsync(TFilter filter);
+    Task<IEnumerable<TGetDto>> GetAllAsync(TFilter filter, SortingParameters sorting);
     
     Task<TGetDto> GetByIdAsync(int id);
     

@@ -462,14 +462,9 @@ public partial class IspDbContext(DbContextOptions<IspDbContext> options) : DbCo
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
                 .HasColumnName("create_date_time");
-            entity.Property(e => e.Date)
-                .HasColumnType("datetime")
-                .HasColumnName("date");
+            entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
-            entity.Property(e => e.EquipmentPlacementAmount)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("equipment_placement_amount");
+            entity.Property(e => e.EquipmentPlacementAmount).HasColumnName("equipment_placement_amount");
             entity.Property(e => e.OfficeEquipmentId).HasColumnName("office_equipment_id");
             entity.Property(e => e.PurchaseEquipmentId).HasColumnName("purchase_equipment_id");
             entity.Property(e => e.UpdateDateTime)
@@ -882,9 +877,7 @@ public partial class IspDbContext(DbContextOptions<IspDbContext> options) : DbCo
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
                 .HasColumnName("create_date_time");
-            entity.Property(e => e.Date)
-                .HasColumnType("datetime")
-                .HasColumnName("date");
+            entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
             entity.Property(e => e.Number)
                 .HasMaxLength(255)
@@ -927,10 +920,7 @@ public partial class IspDbContext(DbContextOptions<IspDbContext> options) : DbCo
             entity.Property(e => e.Price)
                 .HasColumnType("money")
                 .HasColumnName("price");
-            entity.Property(e => e.PurchaseEquipmentAmount)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("purchase_equipment_amount");
+            entity.Property(e => e.PurchaseEquipmentAmount).HasColumnName("purchase_equipment_amount");
             entity.Property(e => e.PurchaseId).HasColumnName("purchase_id");
             entity.Property(e => e.UpdateDateTime)
                 .HasColumnType("datetime")

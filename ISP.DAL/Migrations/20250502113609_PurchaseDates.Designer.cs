@@ -4,6 +4,7 @@ using ISP.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ISP.DAL.Migrations
 {
     [DbContext(typeof(IspDbContext))]
-    partial class IspDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250502113609_PurchaseDates")]
+    partial class PurchaseDates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -618,8 +621,11 @@ namespace ISP.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("employee_id");
 
-                    b.Property<int>("EquipmentPlacementAmount")
-                        .HasColumnType("int")
+                    b.Property<string>("EquipmentPlacementAmount")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("equipment_placement_amount");
 
                     b.Property<int>("OfficeEquipmentId")
@@ -1296,8 +1302,11 @@ namespace ISP.DAL.Migrations
                         .HasColumnType("money")
                         .HasColumnName("price");
 
-                    b.Property<int>("PurchaseEquipmentAmount")
-                        .HasColumnType("int")
+                    b.Property<string>("PurchaseEquipmentAmount")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("purchase_equipment_amount");
 
                     b.Property<int>("PurchaseId")

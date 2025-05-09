@@ -37,19 +37,4 @@ public class ConnectionEquipmentService(IUnitOfWork unitOfWork, IMapper mapper)
     
         return filter;
     }
-    
-    protected override Func<IQueryable<ConnectionEquipment>, IOrderedQueryable<ConnectionEquipment>>? BuildSorting(
-        SortingParameters sortingParameters)
-    {
-        if (string.IsNullOrEmpty(sortingParameters.SortBy))
-        {
-            return null;
-        }
-    
-        return sortingParameters.SortBy.ToLower() switch
-        {
-            // To add sorting
-            _ => null
-        };
-    }
 }

@@ -30,11 +30,15 @@ public class GenericRepository<T>(IspDbContext context) : IGenericRepository<T>
         return await query.AsNoTracking().ToListAsync();
     }
 
-    public async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>>? filter = null)
+    public async Task<IEnumerable<T>> GetAsync(
+        Expression<Func<T, bool>>? filter = null,
+        Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
     {
         IQueryable<T> query = DbSet;
 
         if (filter is not null) query = query.Where(filter);
+        
+        if (orderBy is not null) query = orderBy(query);
         
         return await query.AsNoTracking().ToListAsync();
     }
