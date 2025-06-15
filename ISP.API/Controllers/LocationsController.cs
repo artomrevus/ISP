@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ISP.API.Controllers;
 
-[ResponseCache(CacheProfileName = "ShortCache")]
 public class LocationsController(IServiceProvider serviceProvider)
     : IspController<Location, GetLocationDto, AddLocationDto, UpdateLocationDto, LocationFilterParameters>(serviceProvider)
 {

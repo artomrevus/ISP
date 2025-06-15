@@ -63,13 +63,7 @@ public static class BuilderExtensions
                 "LongCache",
                 new CacheProfile
                 {
-                    Duration = 600,
-                });
-            options.CacheProfiles.Add(
-                "ShortCache",
-                new CacheProfile
-                {
-                    Duration = 60,
+                    Duration = 60 * 60,
                 });
             
             options.ModelBinderProviders.Insert(0, new DateOnlyModelBinderProvider());
@@ -305,12 +299,13 @@ public static class BuilderExtensions
     {
         services.AddScoped<IMonitoringService, MonitoringService>();
     }
-    
+
     private static void AddAuthBllServices(this IServiceCollection services)
     {
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IAdminAuthService, AdminAuthService>();
         services.AddScoped<IEmployeeAuthService, EmployeeAuthService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IUserAccountsService, UserAccountsService>();
     }
 }

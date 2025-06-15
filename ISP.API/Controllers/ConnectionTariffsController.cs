@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ISP.API.Controllers;
 
-[ResponseCache(CacheProfileName = "LongCache")]
 public class ConnectionTariffsController(IServiceProvider serviceProvider)
     : IspController<ConnectionTariff, GetConnectionTariffDto, AddConnectionTariffDto, UpdateConnectionTariffDto, ConnectionTariffFilterParameters>(serviceProvider)
 {

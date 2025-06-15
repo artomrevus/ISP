@@ -63,7 +63,21 @@ public class InternetTariffService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            // To add sorting
+             SortByValues.Name => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.Name)
+                : q => q.OrderByDescending(x => x.Name),
+            SortByValues.Price => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.Price)
+                : q => q.OrderByDescending(x => x.Price),
+            SortByValues.InternetSpeedMbits => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.InternetSpeedMbits)
+                : q => q.OrderByDescending(x => x.InternetSpeedMbits),
+            SortByValues.InternetTariffStatus => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.InternetTariffStatus.InternetTariffStatusName)
+                : q => q.OrderByDescending(x => x.InternetTariffStatus.InternetTariffStatusName),
+            SortByValues.LocationType => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.LocationType.LocationTypeName)
+                : q => q.OrderByDescending(x => x.LocationType.LocationTypeName),
             _ => null
         };
     }

@@ -4,5 +4,5 @@ public class StreetFilterParameters
 {
     public List<int> CityIds { get; set; } = [];
     
-    public string? StreetContains { get; set; }
+    public string? StreetNameContains { get; set; }
 }

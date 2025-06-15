@@ -15,15 +15,15 @@ public class StreetService(IUnitOfWork unitOfWork, IMapper mapper)
     protected override Expression<Func<Street, bool>> BuildFilter(StreetFilterParameters filterParameters)
     {
         Expression<Func<Street, bool>> filter = c => true;
-        
+
         if (filterParameters.CityIds.Count > 0)
         {
             filter = filter.And(x => filterParameters.CityIds.Contains(x.CityId));
         }
-        
-        if (!string.IsNullOrEmpty(filterParameters.StreetContains))
+
+        if (!string.IsNullOrEmpty(filterParameters.StreetNameContains))
         {
-            filter = filter.And(x => x.StreetName.ToLower().Contains(filterParameters.StreetContains.ToLower()));
+            filter = filter.And(x => x.StreetName.ToLower().Contains(filterParameters.StreetNameContains.ToLower()));
         }
 
         return filter;
@@ -38,7 +38,12 @@ public class StreetService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            // To add sorting
+            SortByValues.StreetName => sortingParameters.Ascending
+               ? q => q.OrderBy(x => x.StreetName)
+               : q => q.OrderByDescending(x => x.StreetName),
+            SortByValues.City => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.City.CityName)
+                : q => q.OrderByDescending(x => x.City.CityName),
             _ => null
         };
     }

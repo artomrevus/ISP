@@ -1,4 +1,5 @@
 using AutoMapper;
+using ISP.BLL.DTOs.Auth;
 using ISP.BLL.DTOs.ISP.Candidate;
 using ISP.BLL.DTOs.ISP.City;
 using ISP.BLL.DTOs.ISP.Client;
@@ -36,6 +37,7 @@ using ISP.BLL.DTOs.ISP.Vacancy;
 using ISP.BLL.DTOs.ISP.VacancyStatus;
 using ISP.BLL.DTOs.Monitoring;
 using ISP.DAL.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace ISP.BLL.Mappers;
 
@@ -44,149 +46,151 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<UserActivity, GetUserActivityDto>();
-        
+
         CreateMap<City, GetCityDto>();
         CreateMap<AddCityDto, City>();
         CreateMap<UpdateCityDto, City>();
-        
+
         CreateMap<Client, GetClientDto>();
         CreateMap<AddClientDto, Client>();
         CreateMap<UpdateClientDto, Client>();
-        
+
         CreateMap<ClientStatus, GetClientStatusDto>();
         CreateMap<AddClientStatusDto, ClientStatus>();
         CreateMap<UpdateClientStatusDto, ClientStatus>();
-        
+
         CreateMap<EmployeePosition, GetEmployeePositionDto>();
         CreateMap<AddEmployeePositionDto, EmployeePosition>();
         CreateMap<UpdateEmployeePositionDto, EmployeePosition>();
-        
+
         CreateMap<Employee, GetEmployeeDto>();
         CreateMap<AddEmployeeDto, Employee>();
         CreateMap<UpdateEmployeeDto, Employee>();
-        
+
         CreateMap<EmployeeStatus, GetEmployeeStatusDto>();
         CreateMap<AddEmployeeStatusDto, EmployeeStatus>();
         CreateMap<UpdateEmployeeStatusDto, EmployeeStatus>();
-        
+
         CreateMap<House, GetHouseDto>();
         CreateMap<AddHouseDto, House>();
         CreateMap<UpdateHouseDto, House>();
-        
+
         CreateMap<Location, GetLocationDto>();
         CreateMap<AddLocationDto, Location>();
         CreateMap<UpdateLocationDto, Location>();
-        
+
         CreateMap<LocationType, GetLocationTypeDto>();
         CreateMap<AddLocationTypeDto, LocationType>();
         CreateMap<UpdateLocationTypeDto, LocationType>();
-        
+
         CreateMap<Office, GetOfficeDto>();
         CreateMap<AddOfficeDto, Office>();
         CreateMap<UpdateOfficeDto, Office>();
-        
+
         CreateMap<Street, GetStreetDto>();
         CreateMap<AddStreetDto, Street>();
         CreateMap<UpdateStreetDto, Street>();
-        
+
         CreateMap<InternetTariff, GetInternetTariffDto>();
         CreateMap<AddInternetTariffDto, InternetTariff>();
         CreateMap<UpdateInternetTariffDto, InternetTariff>();
-        
+
         CreateMap<InternetTariffStatus, GetInternetTariffStatusDto>();
         CreateMap<AddInternetTariffStatusDto, InternetTariffStatus>();
         CreateMap<UpdateInternetTariffStatusDto, InternetTariffStatus>();
-        
+
         CreateMap<InternetConnectionRequestStatus, GetInternetConnectionRequestStatusDto>();
         CreateMap<AddInternetConnectionRequestStatusDto, InternetConnectionRequestStatus>();
         CreateMap<UpdateInternetConnectionRequestStatusDto, InternetConnectionRequestStatus>();
-        
+
         CreateMap<ConnectionTariff, GetConnectionTariffDto>();
         CreateMap<AddConnectionTariffDto, ConnectionTariff>();
         CreateMap<UpdateConnectionTariffDto, ConnectionTariff>();
-        
+
         CreateMap<InternetConnectionRequest, GetInternetConnectionRequestDto>();
         CreateMap<AddInternetConnectionRequestDto, InternetConnectionRequest>();
         CreateMap<UpdateInternetConnectionRequestDto, InternetConnectionRequest>();
-        
+
         CreateMap<Connection, GetConnectionDto>();
         CreateMap<AddConnectionDto, Connection>();
         CreateMap<UpdateConnectionDto, Connection>();
-        
+
         CreateMap<ConnectionEquipment, GetConnectionEquipmentDto>();
         CreateMap<AddConnectionEquipmentDto, ConnectionEquipment>();
         CreateMap<UpdateConnectionEquipmentDto, ConnectionEquipment>();
-        
+
         CreateMap<OfficeEquipment, GetOfficeEquipmentDto>();
         CreateMap<AddOfficeEquipmentDto, OfficeEquipment>();
         CreateMap<UpdateOfficeEquipmentDto, OfficeEquipment>();
-        
+
         CreateMap<Equipment, GetEquipmentDto>();
         CreateMap<AddEquipmentDto, Equipment>();
         CreateMap<UpdateEquipmentDto, Equipment>();
-        
+
         CreateMap<EquipmentType, GetEquipmentTypeDto>();
         CreateMap<AddEquipmentTypeDto, EquipmentType>();
         CreateMap<UpdateEquipmentTypeDto, EquipmentType>();
-        
+
         CreateMap<Contract, GetContractDto>();
         CreateMap<AddContractDto, Contract>();
         CreateMap<UpdateContractDto, Contract>();
-        
+
         CreateMap<Interview, GetInterviewDto>();
         CreateMap<AddInterviewDto, Interview>();
         CreateMap<UpdateInterviewDto, Interview>();
-        
+
         CreateMap<InterviewRequest, GetInterviewRequestDto>();
         CreateMap<AddInterviewRequestDto, InterviewRequest>();
         CreateMap<UpdateInterviewRequestDto, InterviewRequest>();
-        
+
         CreateMap<Candidate, GetCandidateDto>();
         CreateMap<AddCandidateDto, Candidate>();
         CreateMap<UpdateCandidateDto, Candidate>();
-        
+
         CreateMap<Vacancy, GetVacancyDto>();
         CreateMap<AddVacancyDto, Vacancy>();
         CreateMap<UpdateVacancyDto, Vacancy>();
-        
+
         CreateMap<VacancyStatus, GetVacancyStatusDto>();
         CreateMap<AddVacancyStatusDto, VacancyStatus>();
         CreateMap<UpdateVacancyStatusDto, VacancyStatus>();
-        
+
         CreateMap<ContractStatus, GetContractStatusDto>();
         CreateMap<AddContractStatusDto, ContractStatus>();
         CreateMap<UpdateContractStatusDto, ContractStatus>();
-        
+
         CreateMap<InterviewRequestStatus, GetInterviewRequestStatusDto>();
         CreateMap<AddInterviewRequestStatusDto, InterviewRequestStatus>();
         CreateMap<UpdateInterviewRequestStatusDto, InterviewRequestStatus>();
-        
+
         CreateMap<InterviewResult, GetInterviewResultDto>();
         CreateMap<AddInterviewResultDto, InterviewResult>();
         CreateMap<UpdateInterviewResultDto, InterviewResult>();
-        
+
         CreateMap<VacancyStatus, GetVacancyStatusDto>();
         CreateMap<AddVacancyStatusDto, VacancyStatus>();
         CreateMap<UpdateVacancyStatusDto, VacancyStatus>();
-        
+
         CreateMap<PurchaseStatus, GetPurchaseStatusDto>();
         CreateMap<AddPurchaseStatusDto, PurchaseStatus>();
         CreateMap<UpdatePurchaseStatusDto, PurchaseStatus>();
-        
+
         CreateMap<Supplier, GetSupplierDto>();
         CreateMap<AddSupplierDto, Supplier>();
         CreateMap<UpdateSupplierDto, Supplier>();
-        
+
         CreateMap<Purchase, GetPurchaseDto>();
         CreateMap<AddPurchaseDto, Purchase>();
         CreateMap<UpdatePurchaseDto, Purchase>();
-        
+
         CreateMap<PurchaseEquipment, GetPurchaseEquipmentDto>();
         CreateMap<AddPurchaseEquipmentDto, PurchaseEquipment>();
         CreateMap<UpdatePurchaseEquipmentDto, PurchaseEquipment>();
-        
+
         CreateMap<EquipmentPlacement, GetEquipmentPlacementDto>();
         CreateMap<AddEquipmentPlacementDto, EquipmentPlacement>();
         CreateMap<UpdateEquipmentPlacementDto, EquipmentPlacement>();
+        
+        CreateMap<IdentityUser, UserAccountDto>();
     }
 }

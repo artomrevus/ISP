@@ -44,7 +44,15 @@ public class HouseService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            // To add sorting
+            SortByValues.Street => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.Street.StreetName)
+                : q => q.OrderByDescending(x => x.Street.StreetName),
+            SortByValues.City => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.Street.City.CityName)
+                : q => q.OrderByDescending(x => x.Street.City.CityName),
+            SortByValues.HouseNumber => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.HouseNumber)
+                : q => q.OrderByDescending(x => x.HouseNumber),
             _ => null
         };
     }

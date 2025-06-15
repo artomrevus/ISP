@@ -4,7 +4,6 @@ using ISP.BLL.Constants;
 using ISP.BLL.DTOs.ISP;
 using ISP.BLL.DTOs.ISP.City;
 using ISP.BLL.Extensions;
-using ISP.BLL.Interfaces.ISP;
 using ISP.DAL.Entities;
 using ISP.DAL.Interfaces;
 
@@ -16,10 +15,10 @@ public class CityService(IUnitOfWork unitOfWork, IMapper mapper)
     protected override Expression<Func<City, bool>> BuildFilter(CityFilterParameters filterParameters)
     {
         Expression<Func<City, bool>> filter = c => true;
-        
-        if (!string.IsNullOrEmpty(filterParameters.CityContains))
+
+        if (!string.IsNullOrEmpty(filterParameters.CityNameContains))
         {
-            filter = filter.And(x => x.CityName!.ToLower().Contains(filterParameters.CityContains.ToLower()));
+            filter = filter.And(x => x.CityName!.ToLower().Contains(filterParameters.CityNameContains.ToLower()));
         }
 
         return filter;
@@ -34,7 +33,9 @@ public class CityService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            // To add sorting
+            SortByValues.CityName => sortingParameters.Ascending
+               ? q => q.OrderBy(x => x.CityName)
+               : q => q.OrderByDescending(x => x.CityName),
             _ => null
         };
     }

@@ -48,7 +48,18 @@ public class OfficeService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            // To add sorting
+            SortByValues.Address => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.Address)
+                : q => q.OrderByDescending(x => x.Address),
+            SortByValues.PhoneNumber => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.PhoneNumber)
+                : q => q.OrderByDescending(x => x.PhoneNumber),
+            SortByValues.Email => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.Email)
+                : q => q.OrderByDescending(x => x.Email),
+            SortByValues.City => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.City.CityName)
+                : q => q.OrderByDescending(x => x.City.CityName),
             _ => null
         };
     }

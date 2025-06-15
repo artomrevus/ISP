@@ -88,7 +88,24 @@ public class ClientService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            // To add sorting
+            SortByValues.FirstName => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.FirstName)
+                : q => q.OrderByDescending(x => x.FirstName),
+            SortByValues.LastName => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.LastName)
+                : q => q.OrderByDescending(x => x.LastName),
+            SortByValues.PhoneNumber => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.PhoneNumber)
+                : q => q.OrderByDescending(x => x.PhoneNumber),
+            SortByValues.Email => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.Email)
+                : q => q.OrderByDescending(x => x.Email),
+            SortByValues.ClientStatus => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.ClientStatus.ClientStatusName)
+                : q => q.OrderByDescending(x => x.ClientStatus.ClientStatusName),
+            SortByValues.RegistrationDate => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.RegistrationDate)
+                : q => q.OrderByDescending(x => x.RegistrationDate),
             _ => null
         };
     }

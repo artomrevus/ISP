@@ -7,7 +7,11 @@ namespace ISP.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController(IAdminAuthService adminAuthService, IEmployeeAuthService employeeAuthService) : ControllerBase
+public class AuthController(
+    IAdminAuthService adminAuthService,
+    IEmployeeAuthService employeeAuthService,
+    IUserAccountsService userAccountsService)
+    : ControllerBase
 {
     [HttpPost]
     [Route("login/admin")]
@@ -16,7 +20,7 @@ public class AuthController(IAdminAuthService adminAuthService, IEmployeeAuthSer
         var responseDto = await adminAuthService.LoginAsync(loginRequestDto);
         return Ok(responseDto);
     }
-    
+
     [HttpPost]
     [Route("login/employee")]
     public async Task<IActionResult> LoginEmployee([FromBody] LoginRequestDto loginRequestDto)
@@ -24,7 +28,7 @@ public class AuthController(IAdminAuthService adminAuthService, IEmployeeAuthSer
         var responseDto = await employeeAuthService.LoginAsync(loginRequestDto);
         return Ok(responseDto);
     }
-    
+
     [HttpPost]
     [Route("register/employee")]
     public async Task<IActionResult> RegisterEmployee([FromBody] RegisterEmployeeRequestDto registerRequestDto)
@@ -32,12 +36,20 @@ public class AuthController(IAdminAuthService adminAuthService, IEmployeeAuthSer
         var responseDto = await employeeAuthService.RegisterAsync(registerRequestDto);
         return Ok(responseDto);
     }
-    
+
     [HttpDelete]
     [Route("delete/{employeeId}")]
     public async Task<IActionResult> DeleteEmployee([FromRoute] string employeeId)
     {
         await employeeAuthService.DeleteAsync(employeeId);
         return NoContent();
+    }
+
+    [HttpGet]
+    [Route("accounts")]
+    public async Task<IActionResult> GetAllAccounts()
+    {
+        var accounts = await userAccountsService.GetAllAsync();
+        return Ok(accounts);
     }
 }

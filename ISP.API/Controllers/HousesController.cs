@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ISP.API.Controllers;
 
-[ResponseCache(CacheProfileName = "ShortCache")]
 public class HousesController(IServiceProvider serviceProvider)
     : IspController<House, GetHouseDto, AddHouseDto, UpdateHouseDto, HouseFilterParameters>(serviceProvider)
 {

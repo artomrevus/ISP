@@ -48,7 +48,21 @@ public class LocationService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            // To add sorting
+            SortByValues.LocationType => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.LocationType.LocationTypeName)
+                : q => q.OrderByDescending(x => x.LocationType.LocationTypeName),
+            SortByValues.Street => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.House.Street.StreetName)
+                : q => q.OrderByDescending(x => x.House.Street.StreetName),
+            SortByValues.City => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.House.Street.City.CityName)
+                : q => q.OrderByDescending(x => x.House.Street.City.CityName),
+            SortByValues.HouseNumber => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.House.HouseNumber)
+                : q => q.OrderByDescending(x => x.House.HouseNumber),
+            SortByValues.ApartmentNumber => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.ApartmentNumber)
+                : q => q.OrderByDescending(x => x.ApartmentNumber),
             _ => null
         };
     }

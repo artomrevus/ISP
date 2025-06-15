@@ -3,7 +3,6 @@ using AutoMapper;
 using ISP.BLL.Constants;
 using ISP.BLL.DTOs.ISP;
 using ISP.BLL.DTOs.ISP.Equipment;
-using ISP.BLL.DTOs.ISP.Street;
 using ISP.BLL.Extensions;
 using ISP.DAL.Entities;
 using ISP.DAL.Interfaces;
@@ -49,7 +48,15 @@ public class EquipmentService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return sortingParameters.SortBy.ToLower() switch
         {
-            // To add sorting
+             SortByValues.Name => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.Name)
+                : q => q.OrderByDescending(x => x.Name),
+            SortByValues.Price => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.Price)
+                : q => q.OrderByDescending(x => x.Price),
+            SortByValues.EquipmentType => sortingParameters.Ascending
+                ? q => q.OrderBy(x => x.EquipmentType.EquipmentTypeName)
+                : q => q.OrderByDescending(x => x.EquipmentType.EquipmentTypeName),
             _ => null
         };
     }
